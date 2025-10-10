@@ -17,7 +17,7 @@ ENV NODE_ENV=development
 ENV PORT=3002
 ENV HOSTNAME="0.0.0.0"
 
-EXPOSE 3002
+EXPOSE 3000
 
 # Start the application in development mode
 CMD ["npm", "run", "dev"]
