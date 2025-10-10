@@ -1,0 +1,97 @@
+{
+  "user_profile": {
+    "id": 7,
+    "email": "learner@um6p.ma",
+    "name": "",
+    "role": "LEARNER",
+    "total_points": 0,
+    "total_stars": 0,
+    "badges_earned": [],
+    "certificates_earned": [],
+    "quests_completed": 0,
+    "experience_level": 1,
+    "experience_points": 0,
+    "current_level_progress": 0
+  },
+  "not_started_quests": [
+    {
+      "id": "e5bf2a93-2bdc-43b5-961c-052697be5cbd",
+      "quest": {
+        "id": "4d10a373-1df7-42fe-a209-fca4a48548e8",
+        "name": "Legendary Blacksmithing",
+        "description": "Master the ancient art of forging legendary weapons and armor using mystical techniques.",
+        "is_active": true,
+        "created_at": "2025-10-08T23:38:09Z",
+        "updated_at": "2025-10-09T00:03:39.573975Z",
+        "difficulty": "EXPERT",
+        "status": "PUBLISHED",
+        "estimated_duration": 30,
+        "prerequicite_points": 600,
+        "prerequisite_quests": [],
+        "cover_image_url": "https://i.pinimg.com/474x/45/69/22/4569226c92c8d3b2aa26bcde51a5a8a3.jpg",
+        "intro_video_url": "",
+        "resources": {},
+        "reward_points": 550,
+        "reward_badges": [
+          "legendary_smith",
+          "weapon_master",
+          "forge_guardian"
+        ],
+        "reward_certificates": [],
+        "total_points": 550,
+        "total_duration": 30
+      },
+      "quest_name": "Legendary Blacksmithing",
+      "quest_difficulty": "EXPERT",
+      "start_time": null,
+      "close_time": null,
+      "status": "NOT_STARTED",
+      "tasks_completed": 0,
+      "quest_total_tasks": 4,
+      "total_points_earned": 0,
+      "total_stars_earned": 0,
+      "is_completed": false,
+      "completion_time": null,
+      "rewards_granted": false,
+      "progress_percentage": 0,
+      "next_task": {
+        "id": "6dfe3836-8703-45d6-abc2-0562d2a286df",
+        "quest": "4d10a373-1df7-42fe-a209-fca4a48548e8",
+        "name": "Metallurgy Fundamentals",
+        "description": "Study the properties of mystical metals and alloys",
+        "is_active": true,
+        "created_at": "2025-10-08T23:38:09.742511Z",
+        "updated_at": "2025-10-08T23:38:09.742583Z",
+        "sub_learning_outcomes": [
+          "cc4c2828-bf83-4ca2-bce0-2dddea161194",
+          "1a50db76-77db-4f07-be1d-44079d746641",
+          "8c9cfe72-351f-4ccf-b94e-173dd47af6c4"
+        ],
+        "type": "READING",
+        "estimated_duration": 6,
+        "prerequicite_points": 0,
+        "points": 100,
+        "order": 1,
+        "prerequisite_tasks": [],
+        "cover_image_url": "",
+        "intro_video_url": "",
+        "resources": {}
+      },
+      "completed_tasks": [],
+      "created_at": "2025-10-09T00:37:16.333646Z",
+      "updated_at": "2025-10-09T00:37:16.334080Z"
+    }
+  ],
+  "in_progress_quests": [],
+  "paused_quests": [],
+  "abandoned_quests": [],
+  "completed_quests": [],
+  "recent_activity": [],
+  "stats": {
+    "total_quests_registered": 1,
+    "quests_in_progress": 0,
+    "quests_paused": 0,
+    "quests_abandoned": 0,
+    "quests_completed": 0
+  }
+}
