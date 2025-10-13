@@ -103,7 +103,7 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {courseList.map((course) => (
-          <CourseCard key={course.id} course={course} />
+          <CourseCard key={course.id} course={course} variant="dashboard" />
         ))}
       </div>
     );

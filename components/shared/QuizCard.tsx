@@ -43,27 +43,36 @@ export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
 
   if (variant === "dashboard") {
     return (
-      <Link href={`/quiz-catalog/${quiz.id}`} className="block">
-        <div className="border rounded-lg overflow-hidden bg-card transition-all duration-200 hover:shadow-md hover:scale-[1.02]">
+      <Link href={`/quiz-catalog/${quiz.id}`} className="block h-full">
+        <div className="border rounded-lg overflow-hidden bg-card transition-all duration-200 hover:shadow-md hover:scale-[1.02] h-full flex flex-col">
+          {/* Quiz Image */}
+          <div className="relative h-48 bg-gradient-to-br from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 overflow-hidden">
+            <div className="flex items-center justify-center h-full">
+              <Trophy className="w-12 h-12 text-muted-foreground" />
+            </div>
+          </div>
+          
           {/* Quiz Header */}
-          <div className="p-4 border-b bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20">
-            <div className="flex items-start justify-between mb-2">
-              <div className="flex items-center gap-2">
+          <div className="p-4 border-b bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 h-[140px] flex flex-col overflow-hidden">
+            <div className="flex items-start justify-between mb-3 flex-shrink-0">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
                 {getStatusIcon(quiz.status)}
-                <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium truncate">
                   {quiz.category}
                 </span>
               </div>
-              <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
+              <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full flex-shrink-0 ${getDifficultyColor(quiz.difficulty)}`}>
                 {quiz.difficulty}
               </span>
             </div>
-            <h3 className="font-semibold text-lg line-clamp-2 mb-2">{quiz.title}</h3>
-            <p className="text-sm text-muted-foreground line-clamp-2">{quiz.description}</p>
+            <div className="flex-1 flex flex-col justify-center min-h-0 overflow-hidden">
+              <h3 className="font-semibold text-lg truncate mb-2">{quiz.title}</h3>
+              <p className="text-sm text-muted-foreground line-clamp-2">{quiz.description}</p>
+            </div>
           </div>
 
           {/* Quiz Stats */}
-          <div className="p-4 space-y-3">
+          <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-muted-foreground" />
@@ -99,26 +108,28 @@ export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
 
   // Catalog variant
   return (
-    <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+    <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-all duration-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
       {/* Quiz Header */}
-      <div className="p-4 border-b bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20">
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex items-center gap-2">
+      <div className="p-4 border-b bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 h-[140px] flex flex-col overflow-hidden">
+        <div className="flex items-start justify-between mb-3 flex-shrink-0">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
             {getStatusIcon(quiz.status)}
-            <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+            <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium truncate">
               {quiz.category}
             </span>
           </div>
-          <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
+          <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full flex-shrink-0 ${getDifficultyColor(quiz.difficulty)}`}>
             {quiz.difficulty}
           </span>
         </div>
-        <h3 className="font-semibold text-lg line-clamp-2 mb-2">{quiz.title}</h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">{quiz.description}</p>
+        <div className="flex-1 flex flex-col justify-center min-h-0 overflow-hidden">
+          <h3 className="font-semibold text-lg truncate mb-2">{quiz.title}</h3>
+          <p className="text-sm text-muted-foreground line-clamp-2">{quiz.description}</p>
+        </div>
       </div>
 
       {/* Quiz Stats */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 flex-1 flex flex-col">
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-muted-foreground" />
@@ -148,32 +159,34 @@ export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
         )}
 
         {/* Action Button */}
-        {quiz.status === "locked" ? (
-          <button 
-            className="w-full py-2 px-4 rounded-md text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
-            disabled
-          >
-            🔒 Locked
-          </button>
-        ) : (
-          <Link href={`/quiz-catalog/${quiz.id}`}>
+        <div className="mt-auto">
+          {quiz.status === "locked" ? (
             <button 
-              className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                quiz.status === "available" 
-                  ? "bg-blue-500 text-white hover:bg-blue-600" 
-                  : quiz.status === "in-progress"
-                  ? "bg-orange-500 text-white hover:bg-orange-600"
-                  : quiz.status === "completed"
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-gray-300 text-gray-500"
-              }`}
+              className="w-full py-2 px-4 rounded-md text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
+              disabled
             >
-              {quiz.status === "available" && "Start Quiz"}
-              {quiz.status === "in-progress" && "Continue Quiz"}
-              {quiz.status === "completed" && "Retake Quiz"}
+              🔒 Locked
             </button>
-          </Link>
-        )}
+          ) : (
+            <Link href={`/quiz-catalog/${quiz.id}`}>
+              <button 
+                className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  quiz.status === "available" 
+                    ? "bg-blue-500 text-white hover:bg-blue-600" 
+                    : quiz.status === "in-progress"
+                    ? "bg-orange-500 text-white hover:bg-orange-600"
+                    : quiz.status === "completed"
+                    ? "bg-green-500 text-white hover:bg-green-600"
+                    : "bg-gray-300 text-gray-500"
+                }`}
+              >
+                {quiz.status === "available" && "Start Quiz"}
+                {quiz.status === "in-progress" && "Continue Quiz"}
+                {quiz.status === "completed" && "Retake Quiz"}
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

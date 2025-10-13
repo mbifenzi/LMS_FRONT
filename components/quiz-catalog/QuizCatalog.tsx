@@ -98,7 +98,7 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {quizList.map((quiz) => (
-          <QuizCard key={quiz.id} quiz={quiz} />
+          <QuizCard key={quiz.id} quiz={quiz} variant="dashboard" />
         ))}
       </div>
     );
