@@ -2,11 +2,10 @@ import React from "react";
 import ProfileCard from "@/components/dashboard/ProfileContent";
 import DashboardContent from "@/components/dashboard/DashboardContent";
 import { dashboardData } from "@/lib/dashboard-data";
-import { fetchCurrentUser } from "@/lib/api/user-api";
 
-export default async function Dashboard() {
-  const currentUser = await fetchCurrentUser();
-  const role = currentUser?.role;
+export default function Dashboard() {
+  // Use mock user role - you can change this as needed
+  const role = "Student";
 
   return (
     <div className="h-full w-full">

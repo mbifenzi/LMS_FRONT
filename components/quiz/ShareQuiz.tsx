@@ -30,7 +30,7 @@ interface ShareQuizProps {
 
 export default function ShareQuiz({ quiz }: ShareQuizProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const quizUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/quiz/${quiz.id}`;
+  const quizUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/quiz-catalog/${quiz.id}`;
 
   const handleCopyLink = async () => {
     try {

@@ -1,4 +1,3 @@
-import { fetchCurrentUser } from "@/lib/api/user-api";
 import CourseContent from "@/components/course-catalog/CourseContent";
 
 export const metadata = {
@@ -6,12 +5,13 @@ export const metadata = {
   description: "Browse available courses",
 };
 
-export default async function CourseCatalogPage() {
-  const user = await fetchCurrentUser();
+export default function CourseCatalogPage() {
+  // Use mock user role - you can change this as needed
+  const mockUserRole = "Student";
   
   return (
     <div>
-      <CourseContent role={user?.role} />
+      <CourseContent role={mockUserRole} />
     </div>
   );
 }

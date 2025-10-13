@@ -14,7 +14,7 @@ export default function ShareCourse({ courseId, className }: ShareCourseProps) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setUrl(`${window.location.origin}/course/${courseId}`);
+      setUrl(`${window.location.origin}/course-catalog/${courseId}`);
     }
   }, [courseId]);
 
