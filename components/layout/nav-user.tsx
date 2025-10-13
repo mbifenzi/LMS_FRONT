@@ -32,7 +32,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { logoutUser } from "@/lib/api/user-api-client"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 export function NavUser({
   user,
@@ -45,7 +45,6 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
-  const { toast } = useToast()
   const [loading, setLoading] = useState(false)
 
   return (
@@ -117,11 +116,15 @@ export function NavUser({
                 const res = await logoutUser()
                 setLoading(false)
                 if (res.success) {
-                  toast({ title: "Logged out", description: "You have been logged out.", type: "success" })
+                  toast.success("Logged out", {
+                    description: "You have been logged out.",
+                  })
                   // redirect to login page
                   router.push("/login")
                 } else {
-                  toast({ title: "Logout failed", description: res.message || "Could not log out.", type: "error" })
+                  toast.error("Logout failed", {
+                    description: res.message || "Could not log out.",
+                  })
                 }
               }}
             >

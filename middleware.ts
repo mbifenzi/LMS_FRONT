@@ -73,6 +73,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/static') ||
     pathname.startsWith('/api') ||
+    pathname.startsWith('/images') ||
     pathname === '/favicon.ico'
   ) {
     console.log('⏭️ [MIDDLEWARE] Skipping middleware for static/API route:', pathname)
@@ -123,6 +124,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|images).*)',
   ],
 }

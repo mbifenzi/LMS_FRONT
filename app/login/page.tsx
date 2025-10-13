@@ -46,7 +46,8 @@ export default function LoginPage() {
       </div>
 
   <div className="relative hidden lg:block overflow-hidden rounded-l-4xl min-h-screen">
-        <Image src="/images/2.jpg" alt="Academic workspace" fill className="object-cover" priority />
+        <Image src="/images/login.jpg" alt="Academic workspace" fill className="object-cover" 
+         />
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/60 via-indigo-600/70 to-slate-800/60"></div>
 
         <div className="absolute inset-0 flex items-center justify-center p-12">

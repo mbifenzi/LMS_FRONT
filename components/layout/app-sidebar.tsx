@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, HelpCircle, LayoutDashboard, Trophy, Frame, Map, PieChart, Settings2, SquareTerminal } from "lucide-react";
+import { BookOpen, HelpCircle, LayoutDashboard, Trophy, Frame, Map, PieChart, Settings2, SquareTerminal, Brain } from "lucide-react";
 
 import { NavMain } from "@/components/layout/nav-main";
 import { NavProjects } from "@/components/layout/nav-projects";
@@ -41,9 +41,14 @@ const data = {
       isActive: true,
     },
     {
-      title: "Quest Catalog",
-      url: "/quest-catalog",
+      title: "Course Catalog",
+      url: "/course-catalog",
       icon: Trophy,
+    },
+    {
+      title: "Quiz Catalog",
+      url: "/quiz-catalog",
+      icon: Brain,
     },
     {
       title: "Help",

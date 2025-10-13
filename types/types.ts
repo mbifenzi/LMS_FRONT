@@ -20,6 +20,28 @@ export interface ApiQuest {
   total_duration: number;
 }
 
+export interface ApiCourse {
+  id: string;
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "UNDER_REVIEW" | "REJECTED";
+  estimated_duration: number;
+  prerequicite_points: number;
+  prerequisite_courses: string[];
+  cover_image_url: string;
+  intro_video_url: string;
+  resources: Record<string, unknown>;
+  reward_points: number;
+  reward_badges: string[];
+  reward_certificates: string[];
+  total_points: number;
+  total_duration: number;
+}
+
 export interface ApiTask {
   id: string;
   quest: string; // quest id (UUID)
@@ -35,6 +57,26 @@ export interface ApiTask {
   points: number;
   order: number;
   prerequisite_tasks: string[];
+  cover_image_url: string;
+  intro_video_url: string;
+  resources: Record<string, unknown>;
+}
+
+export interface ApiQuiz {
+  id: string;
+  course: string; // course id (UUID)
+  name: string;
+  description: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  sub_learning_outcomes: string[];
+  type: string;
+  estimated_duration: number;
+  prerequicite_points: number;
+  points: number;
+  order: number;
+  prerequisite_quizzes: string[];
   cover_image_url: string;
   intro_video_url: string;
   resources: Record<string, unknown>;
