@@ -17,12 +17,12 @@ interface QuizPageProps {
 function findQuizById(id: string): QuizType | null {
   const allQuizzes = [
     ...quizzesByStatus.available,
-    ...quizzesByStatus.enrolled,
+    ...quizzesByStatus["in-progress"],
     ...quizzesByStatus.completed,
-    ...quizzesByStatus.active,
+    ...quizzesByStatus.locked,
   ];
   
-  return allQuizzes.find(quiz => quiz.id === id) || null;
+  return allQuizzes.find(quiz => quiz.id === parseInt(id)) || null;
 }
 
 export default async function QuizPage({ params }: QuizPageProps) {
