@@ -4,11 +4,26 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Toaster } from "sonner";
+import { fetchCurrentUser } from "@/lib/api/user-api";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  // Fetch current user data
+  const currentUser = await fetchCurrentUser();
+  
+  // Generate DiceBear avatar URL based on username or name
+  const seed = currentUser?.username || currentUser?.name || "default";
+  const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}`;
+  
+  // Prepare user data for sidebar
+  const user = {
+    name: currentUser?.name || "User",
+    email: currentUser?.email || "user@um6p.ma",
+    avatar: avatarUrl,
+  };
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={user} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">

@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Award as AwardIcon, MapPin, Mail, type LucideIcon } from "lucide-react";
 
@@ -35,6 +36,13 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
     .map((n) => n[0])
     .join("");
 
+  // Calculate level and XP progress
+  // Formula: level = floor(exp / 100), XP to next level = exp % 100
+  const level = Math.floor(profile.exp / 100);
+  const currentLevelExp = profile.exp % 100;
+  const expToNextLevel = 100;
+  const progressPercentage = (currentLevelExp / expToNextLevel) * 100;
+
   return (
     <Card className="h-fit dark:bg-black">
       <CardContent className="p-4 h-full flex flex-col">
@@ -48,6 +56,17 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
 
           <div className="space-y-1.5">
             <h1 className="text-lg sm:text-xl font-semibold">{profile.name}</h1>
+          </div>
+
+          {/* XP Progress Bar */}
+          <div className="space-y-2 pt-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-medium text-muted-foreground">Level {level}</span>
+              <span className="font-medium text-muted-foreground">
+                {currentLevelExp}/{expToNextLevel} XP
+              </span>
+            </div>
+            <Progress value={progressPercentage} className="h-2" />
           </div>
 
           {/* EXP, Stars, Badges count */}
