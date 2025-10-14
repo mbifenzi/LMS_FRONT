@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Clock, Star, Award, Trophy, CheckCircle, Play, Pause, BookOpen } from "lucide-react";
 import { Course } from "@/lib/mock-data/courses";
+import { createSlugWithId } from "@/lib/utils/slug";
 
 interface CourseCardProps {
   course: Course;
@@ -15,6 +16,7 @@ export default function CourseCard({ course, variant = "catalog" }: CourseCardPr
   const [error, setError] = useState(false);
   const hasUrl = course.coverImage && course.coverImage.trim().length > 0;
   const showPlaceholder = !hasUrl || error;
+  const courseSlug = createSlugWithId(course.name, course.id);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -49,7 +51,7 @@ export default function CourseCard({ course, variant = "catalog" }: CourseCardPr
 
   if (variant === "dashboard") {
     return (
-      <Link href={`/course-catalog/${course.id}`} className="block h-full">
+      <Link href={`/course-catalog/${courseSlug}`} className="block h-full">
         <div className="border rounded-lg overflow-hidden bg-card transition-all duration-200 hover:shadow-md hover:scale-[1.02] h-full flex flex-col">
           {/* Course Image */}
           <div className="relative h-48 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 overflow-hidden">
@@ -131,7 +133,7 @@ export default function CourseCard({ course, variant = "catalog" }: CourseCardPr
 
   // Catalog variant
   return (
-    <Link href={`/course-catalog/${course.id}`} className="block group h-full">
+    <Link href={`/course-catalog/${courseSlug}`} className="block group h-full">
       <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-all duration-200 group-hover:shadow-lg group-hover:-translate-y-1 h-full flex flex-col">
         {/* Course Image */}
         <div className="relative h-48 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 overflow-hidden">

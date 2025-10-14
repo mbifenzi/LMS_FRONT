@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Clock, Award, Trophy, CheckCircle, Play, Lock, BookOpen } from "lucide-react";
 import { Quiz } from "@/lib/mock-data/quizzes";
+import { createSlugWithId } from "@/lib/utils/slug";
 
 interface QuizCardProps {
   quiz: Quiz;
@@ -11,6 +12,8 @@ interface QuizCardProps {
 }
 
 export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
+  const quizSlug = createSlugWithId(quiz.title, quiz.id);
+  
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
@@ -43,7 +46,7 @@ export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
 
   if (variant === "dashboard") {
     return (
-      <Link href={`/quiz-catalog/${quiz.id}`} className="block h-full">
+      <Link href={`/quiz-catalog/${quizSlug}`} className="block h-full">
         <div className="border rounded-lg overflow-hidden bg-card transition-all duration-200 hover:shadow-md hover:scale-[1.02] h-full flex flex-col">
           {/* Quiz Image */}
           <div className="relative h-48 bg-gradient-to-br from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 overflow-hidden">
@@ -168,7 +171,7 @@ export default function QuizCard({ quiz, variant = "catalog" }: QuizCardProps) {
               🔒 Locked
             </button>
           ) : (
-            <Link href={`/quiz-catalog/${quiz.id}`}>
+            <Link href={`/quiz-catalog/${quizSlug}`}>
               <button 
                 className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors ${
                   quiz.status === "available" 

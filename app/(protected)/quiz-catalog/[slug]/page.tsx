@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { extractIdFromSlug } from "@/lib/utils/slug";
 import Quiz from "@/components/quiz/Quiz";
 import { quizzesByStatus, type Quiz as QuizType } from "@/lib/mock-data/quizzes";
 
@@ -8,9 +9,9 @@ export const metadata = {
 };
 
 interface QuizPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 // Function to find quiz by ID across all statuses
@@ -26,14 +27,21 @@ function findQuizById(id: string): QuizType | null {
 }
 
 export default async function QuizPage({ params }: QuizPageProps) {
-  const quiz = findQuizById(params.id);
+  // Await params in Next.js 15
+  const { slug } = await params;
+  
+  // Extract the ID from the slug
+  const quizId = extractIdFromSlug(slug);
+  
+  // Find the quiz by ID
+  const quiz = findQuizById(quizId);
 
   if (!quiz) {
     notFound();
   }
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-6">
       <Quiz quiz={quiz} />
     </div>
   );
