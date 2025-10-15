@@ -1,21 +1,10 @@
-"use client"
+"use client";
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { ChevronsUpDown, LogOut, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,28 +13,28 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { logoutUser } from "@/lib/api/user-api-client"
-import { toast } from "sonner"
+} from "@/components/ui/sidebar";
+import { logoutUser } from "@/lib/api/user-api-client";
+import { toast } from "sonner";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const { isMobile } = useSidebar();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   // Generate initials from user name
   const initials = user.name
@@ -66,7 +55,9 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {initials}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -85,7 +76,9 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {initials}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -96,43 +89,28 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+                <User />
+                Profile
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={async (e) => {
-                e.preventDefault()
-                if (loading) return
-                setLoading(true)
-                const res = await logoutUser()
-                setLoading(false)
+                e.preventDefault();
+                if (loading) return;
+                setLoading(true);
+                const res = await logoutUser();
+                setLoading(false);
                 if (res.success) {
                   toast.success("Logged out", {
                     description: "You have been logged out.",
-                  })
+                  });
                   // redirect to login page
-                  router.push("/login")
+                  router.push("/login");
                 } else {
                   toast.error("Logout failed", {
                     description: res.message || "Could not log out.",
-                  })
+                  });
                 }
               }}
             >
@@ -143,5 +121,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

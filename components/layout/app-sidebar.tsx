@@ -1,13 +1,24 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, HelpCircle, LayoutDashboard, Trophy, Frame, Map, PieChart, Settings2, SquareTerminal, Brain } from "lucide-react";
+import {
+  BookOpen,
+  LayoutDashboard,
+  Trophy,
+  Settings2,
+  Brain,
+} from "lucide-react";
 
 import { NavMain } from "@/components/layout/nav-main";
-import { NavProjects } from "@/components/layout/nav-projects";
 import { NavUser } from "@/components/layout/nav-user";
 import { TeamSwitcher } from "@/components/layout/team-switcher";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
 
 // This is sample data.
 const data = {
@@ -45,71 +56,12 @@ const data = {
       url: "/quiz-catalog",
       icon: Brain,
     },
-    {
-      title: "Help",
-      url: "/help",
-      icon: HelpCircle,
-      items: [
-        {
-          title: "FAQ",
-          url: "/help",
-        },
-        {
-          title: "Contact Support",
-          url: "/help",
-        },
-        {
-          title: "Getting Started",
-          url: "/help",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "/documentation",
-      icon: BookOpen,
-      items: [
-        {
-          title: "User Guide",
-          url: "/documentation",
-        },
-        {
-          title: "Tutorials",
-          url: "/documentation",
-        },
-        {
-          title: "API Reference",
-          url: "/documentation",
-        },
-        {
-          title: "Best Practices",
-          url: "/documentation",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
   ],
 };
 
-export function AppSidebar({ 
+export function AppSidebar({
   user,
-  ...props 
+  ...props
 }: React.ComponentProps<typeof Sidebar> & {
   user: {
     name: string;
@@ -124,7 +76,6 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />
