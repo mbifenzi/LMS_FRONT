@@ -14,7 +14,7 @@ COPY . .
 
 # Set development environment
 ENV NODE_ENV=development
-ENV PORT=3002
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
