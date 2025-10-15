@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { quizzesByStatus, type Quiz } from "@/lib/mock-data/quizzes";
@@ -43,37 +43,37 @@ export default function QuizzesSection({ role }: QuizzesSectionProps) {
       );
     }
 
-    // Responsive limits: 1 on mobile, 2 on tablet, 3 on desktop
-    const getLimit = () => {
-      if (typeof window !== 'undefined') {
-        if (window.innerWidth < 768) return 1; // mobile
-        if (window.innerWidth < 1024) return 2; // tablet
-        return 3; // desktop
-      }
-      return 3; // default for SSR
-    };
-
-    const [limit, setLimit] = useState(getLimit());
-    
-    useEffect(() => {
-      const handleResize = () => setLimit(getLimit());
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const visible = quizList.slice(0, limit);
-    const hasMore = quizList.length > limit;
+    // Show different amounts based on screen size using Tailwind
+    const hasMoreMobile = quizList.length > 1;
+    const hasMoreTablet = quizList.length > 2;
+    const hasMoreDesktop = quizList.length > 3;
 
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {visible.map((quiz) => (
-            <QuizCard key={quiz.id} quiz={quiz} variant="dashboard" />
+          {quizList.map((quiz, index) => (
+            <div
+              key={quiz.id}
+              className={
+                index === 0 ? '' : // Always show first item
+                index === 1 ? 'hidden md:block' : // Show 2nd item on md+
+                index === 2 ? 'hidden lg:block' : // Show 3rd item on lg+
+                'hidden' // Hide 4th+ items
+              }
+            >
+              <QuizCard quiz={quiz} variant="dashboard" />
+            </div>
           ))}
         </div>
-        {hasMore && (
+        {/* Show "Show more" conditionally based on screen size */}
+        {(hasMoreMobile || hasMoreTablet || hasMoreDesktop) && (
           <div className="border rounded-md mt-6">
-            <Link href="/quiz-catalog" className="w-full block text-center text-blue-500 hover:text-blue-600 text-sm font-medium py-2 hover:bg-accent/50 rounded-md transition-colors">
+            <Link 
+              href="/quiz-catalog" 
+              className={`w-full block text-center text-blue-500 hover:text-blue-600 text-sm font-medium py-2 hover:bg-accent/50 rounded-md transition-colors ${
+                hasMoreDesktop ? '' : hasMoreTablet ? 'lg:hidden' : 'md:hidden'
+              }`}
+            >
               Show more quizzes
             </Link>
           </div>

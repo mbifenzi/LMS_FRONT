@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { coursesByStatus, type Course } from "@/lib/mock-data/courses";
+import { type Course } from "@/lib/mock-data/courses";
 import CourseCard from "@/components/shared/CourseCard";
 
 const ADMIN_TAB_ORDER = ["published", "draft", "underReview", "rejected", "archived"] as const;
@@ -52,37 +52,37 @@ export default function CoursesSection({ coursesByStatus, role }: CoursesSection
       );
     }
 
-    // Responsive limits: 1 on mobile, 2 on tablet, 3 on desktop
-    const getLimit = () => {
-      if (typeof window !== 'undefined') {
-        if (window.innerWidth < 768) return 1; // mobile
-        if (window.innerWidth < 1024) return 2; // tablet
-        return 3; // desktop
-      }
-      return 3; // default for SSR
-    };
-
-    const [limit, setLimit] = useState(getLimit());
-    
-    React.useEffect(() => {
-      const handleResize = () => setLimit(getLimit());
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const visible = courseList.slice(0, limit);
-    const hasMore = courseList.length > limit;
+    // Show different amounts based on screen size using Tailwind
+    const hasMoreMobile = courseList.length > 1;
+    const hasMoreTablet = courseList.length > 2;
+    const hasMoreDesktop = courseList.length > 3;
 
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {visible.map((course) => (
-            <CourseCard key={course.id} course={course} variant="dashboard" />
+          {courseList.map((course, index) => (
+            <div
+              key={course.id}
+              className={
+                index === 0 ? '' : // Always show first item
+                index === 1 ? 'hidden md:block' : // Show 2nd item on md+
+                index === 2 ? 'hidden lg:block' : // Show 3rd item on lg+
+                'hidden' // Hide 4th+ items
+              }
+            >
+              <CourseCard course={course} variant="dashboard" />
+            </div>
           ))}
         </div>
-        {hasMore && (
+        {/* Show "Show more" conditionally based on screen size */}
+        {(hasMoreMobile || hasMoreTablet || hasMoreDesktop) && (
           <div className="border rounded-md mt-6">
-            <Link href="/course-catalog" className="w-full block text-center text-blue-500 hover:text-blue-600 text-sm font-medium py-2 hover:bg-accent/50 rounded-md transition-colors">
+            <Link 
+              href="/course-catalog" 
+              className={`w-full block text-center text-blue-500 hover:text-blue-600 text-sm font-medium py-2 hover:bg-accent/50 rounded-md transition-colors ${
+                hasMoreDesktop ? '' : hasMoreTablet ? 'lg:hidden' : 'md:hidden'
+              }`}
+            >
               Show more courses
             </Link>
           </div>
