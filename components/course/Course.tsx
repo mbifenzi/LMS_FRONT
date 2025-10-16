@@ -5,17 +5,21 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import {
+  Check,
   Clock,
   Flag,
   Loader2,
+  Share2,
   Star as StarIcon,
   Timer,
   Trophy,
 } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 import { Course as CourseType } from '@/lib/mock-data/courses';
-
-import ShareCourse from './ShareCourse';
 
 // Client-side registration handler for mock data
 const registerCourse = async (
@@ -29,22 +33,63 @@ const registerCourse = async (
   return { success: true, message: 'Successfully registered for course' };
 };
 
+// Helper function to get status badge variant
+const getStatusVariant = (
+  status: CourseType['status']
+):
+  | 'available'
+  | 'inProgress'
+  | 'notStarted'
+  | 'paused'
+  | 'abandoned'
+  | 'completed' => {
+  return status as
+    | 'available'
+    | 'inProgress'
+    | 'notStarted'
+    | 'paused'
+    | 'abandoned'
+    | 'completed';
+};
+
+// Helper function to get difficulty badge variant
+const getDifficultyVariant = (
+  difficulty: CourseType['difficulty']
+): 'beginner' | 'intermediate' | 'advanced' | 'expert' => {
+  return difficulty.toLowerCase() as
+    | 'beginner'
+    | 'intermediate'
+    | 'advanced'
+    | 'expert';
+};
+
+// Helper function to format status for display
+const formatStatus = (status: CourseType['status']): string => {
+  const statusMap: Record<CourseType['status'], string> = {
+    available: 'Available',
+    inProgress: 'In Progress',
+    notStarted: 'Not Started',
+    paused: 'Paused',
+    abandoned: 'Abandoned',
+    completed: 'Completed',
+  };
+  return statusMap[status];
+};
+
 interface CourseProps {
   course: CourseType;
 }
 
 export default function Course({ course }: CourseProps) {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   const cover =
     course.coverImage && course.coverImage.trim() !== ''
       ? course.coverImage
       : '/images/default-img-um6P.png';
   const introVideo = null; // Mock data doesn't have intro video
-
-  const [error, setError] = useState(false);
-  const hasUrl = course.coverImage && course.coverImage.trim().length > 0;
-  const showPlaceholder = !hasUrl || error;
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const handleRegister = async () => {
     if (isRegistering || isRegistered) return;
@@ -67,90 +112,101 @@ export default function Course({ course }: CourseProps) {
     }
   };
 
+  const handleShare = async () => {
+    if (typeof window === 'undefined') return;
+
+    const url = `${window.location.origin}/course-catalog/${course.id}`;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      toast.success('Link copied!', {
+        description: 'Course link has been copied to clipboard.',
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      toast.error('Failed to copy', {
+        description: 'Please try again.',
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-6 md:px-8 md:py-10">
       <h1 className="mb-3 text-3xl leading-tight font-extrabold tracking-tight break-words md:text-4xl">
         {course.name}
       </h1>
-      <div className="mb-6 flex items-center gap-2">
-        <span className="rounded border border-yellow-500/30 bg-yellow-500/10 px-2 py-0.5 text-[11px] tracking-wide text-yellow-600 uppercase dark:text-yellow-400">
-          {course.difficulty}
-        </span>
-      </div>
+      <header className="mb-6 flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant={getDifficultyVariant(course.difficulty)} size="md">
+            {course.difficulty}
+          </Badge>
+          <Badge variant={getStatusVariant(course.status)} size="md">
+            {formatStatus(course.status)}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={handleRegister}
+            disabled={isRegistering}
+            className={`${
+              isRegistered
+                ? 'bg-emerald-600 hover:bg-emerald-500'
+                : 'bg-sky-500 hover:bg-sky-400'
+            }`}
+          >
+            {isRegistering ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Registering...
+              </>
+            ) : isRegistered ? (
+              'Start'
+            ) : (
+              'Register'
+            )}
+          </Button>
+          <Button
+            onClick={handleShare}
+            size="icon"
+            variant="outline"
+            title="Share course"
+            className="relative"
+          >
+            {copied ? (
+              <Check className="h-4 w-4 text-green-600" />
+            ) : (
+              <Share2 className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+      </header>
 
       <div className="flex flex-col gap-10 lg:flex-row lg:items-start 2xl:gap-14">
         <div className="order-2 w-full min-w-0 space-y-8 lg:order-1 lg:flex-1">
           <div className="relative flex aspect-video max-h-[420px] w-full items-center justify-center overflow-hidden rounded-xl bg-black md:max-h-[480px] 2xl:max-h-[520px]">
-            <video
-              src={
-                introVideo ||
-                'https://samplelib.com/lib/preview/mp4/sample-5s.mp4'
-              }
-              controls
-              poster={cover}
-              className="h-full w-full object-cover"
-            />
-            {/* {showPlaceholder && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg
-                  aria-hidden="true"
-                  className="w-10 h-10 text-gray-400 dark:text-gray-500"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <path d="M21 15l-5-5L5 21" />
-                </svg>
-              </div>
-            )} */}
+            {course.coverImage !== typeof '' ? (
+              <video
+                src={
+                  introVideo ||
+                  'https://samplelib.com/lib/preview/mp4/sample-5s.mp4'
+                }
+                controls
+                poster={cover}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={course.coverImage}
+                alt={course.name}
+                fill
+                className="object-cover"
+              />
+            )}
             <div className="absolute top-2 right-3 rounded bg-black/40 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-gray-300/90">
               ljadid
             </div>
-          </div>
-
-          {/* Thumbnails row */}
-          <div
-            className="flex gap-3 overflow-x-auto pb-2"
-            aria-label="media thumbnails"
-          >
-            <button className="bg-muted focus:ring-ring relative h-14 w-24 flex-shrink-0 overflow-hidden rounded-md focus:ring-2 focus:outline-none sm:h-16 sm:w-28">
-              {showPlaceholder ? (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg
-                    aria-hidden="true"
-                    className="h-6 w-6 text-gray-400 dark:text-gray-500"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <path d="M21 15l-5-5L5 21" />
-                  </svg>
-                </div>
-              ) : (
-                <Image
-                  src={course.coverImage || cover}
-                  alt="Cover thumbnail"
-                  fill
-                  className="object-cover"
-                  onError={() => setError(true)}
-                />
-              )}
-            </button>
-            {introVideo && (
-              <button className="bg-muted text-muted-foreground focus:ring-ring relative flex h-14 w-24 flex-shrink-0 items-center justify-center overflow-hidden rounded-md border text-[10px] focus:ring-2 focus:outline-none sm:h-16 sm:w-28">
-                Video
-              </button>
-            )}
           </div>
           {course.description && (
             <p className="text-muted-foreground max-w-4xl text-sm leading-relaxed whitespace-pre-line md:text-base">
@@ -193,62 +249,6 @@ export default function Course({ course }: CourseProps) {
         </div>
 
         <div className="lg: order-1 h-1/2 w-full flex-shrink-0 space-y-4 self-start lg:top-6 lg:order-2 lg:w-1/4 2xl:w-[320px]">
-          <div className="bg-muted relative aspect-[4/3] w-full overflow-hidden rounded-lg">
-            {showPlaceholder ? (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg
-                  aria-hidden="true"
-                  className="h-8 w-8 text-gray-400 dark:text-gray-500"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <path d="M21 15l-5-5L5 21" />
-                </svg>
-              </div>
-            ) : (
-              <Image
-                src={course.coverImage || cover}
-                alt={course.name}
-                fill
-                className="object-cover"
-                onError={() => setError(true)}
-              />
-            )}
-          </div>
-          <div>
-            <span className="bg-muted mb-4 inline-block rounded-md px-2 py-1 text-[10px] font-medium tracking-wide uppercase">
-              {course.status}
-            </span>
-            <div className="space-y-2.5">
-              <button
-                onClick={handleRegister}
-                disabled={isRegistering}
-                aria-busy={isRegistering}
-                className={`h-11 w-full rounded-md text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
-                  isRegistered
-                    ? 'bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600'
-                    : 'bg-sky-500 hover:bg-sky-400 active:bg-sky-500'
-                }`}
-              >
-                {isRegistering ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Registering...
-                  </span>
-                ) : isRegistered ? (
-                  'Start'
-                ) : (
-                  'Register'
-                )}
-              </button>
-            </div>
-          </div>
           <div className="text-[13px]">
             <div className="flex items-center justify-between gap-4 border-b py-2">
               <div className="text-muted-foreground flex items-center gap-2">
@@ -290,7 +290,6 @@ export default function Course({ course }: CourseProps) {
               <span className="font-medium">{course.instructor}</span>
             </div>
           </div>
-          <ShareCourse courseId={course.id.toString()} />
         </div>
       </div>
     </div>

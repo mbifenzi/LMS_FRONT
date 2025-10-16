@@ -3,9 +3,11 @@
 import * as React from 'react';
 
 import {
+  BadgeQuestionMark,
   Bell,
   BookOpen,
   Brain,
+  FileQuestion,
   Folder,
   LayoutDashboard,
   Settings2,
@@ -80,7 +82,7 @@ const data = {
     {
       title: 'Help Center',
       url: '/help',
-      icon: BookOpen,
+      icon: BadgeQuestionMark,
     },
   ],
 };

@@ -1,5 +1,3 @@
-import { Toaster } from 'sonner';
-
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { DynamicBreadcrumb } from '@/components/layout/dynamic-breadcrumb';
 import { ModeToggle } from '@/components/ui/mode-toggle';
@@ -50,7 +48,6 @@ export default async function Layout({
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
       </SidebarInset>
-      <Toaster />
     </SidebarProvider>
   );
 }

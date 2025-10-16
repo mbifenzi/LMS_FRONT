@@ -26,6 +26,28 @@ const badgeVariants = cva(
         warning:
           'border-transparent bg-amber-500/15 text-amber-700 dark:text-amber-300 [a&]:hover:bg-amber-500/20',
         info: 'border-transparent bg-sky-500/15 text-sky-700 dark:text-sky-300 [a&]:hover:bg-sky-500/20',
+        // Course status variants
+        available:
+          'border-transparent bg-blue-500/15 text-blue-700 dark:text-blue-300 [a&]:hover:bg-blue-500/20',
+        inProgress:
+          'border-transparent bg-purple-500/15 text-purple-700 dark:text-purple-300 [a&]:hover:bg-purple-500/20',
+        notStarted:
+          'border-transparent bg-slate-500/15 text-slate-700 dark:text-slate-300 [a&]:hover:bg-slate-500/20',
+        paused:
+          'border-transparent bg-orange-500/15 text-orange-700 dark:text-orange-300 [a&]:hover:bg-orange-500/20',
+        abandoned:
+          'border-transparent bg-red-500/15 text-red-700 dark:text-red-300 [a&]:hover:bg-red-500/20',
+        completed:
+          'border-transparent bg-green-500/15 text-green-700 dark:text-green-300 [a&]:hover:bg-green-500/20',
+        // Difficulty variants
+        beginner:
+          'border-transparent bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 [a&]:hover:bg-emerald-500/20',
+        intermediate:
+          'border-transparent bg-amber-500/15 text-amber-700 dark:text-amber-300 [a&]:hover:bg-amber-500/20',
+        advanced:
+          'border-transparent bg-orange-500/15 text-orange-700 dark:text-orange-300 [a&]:hover:bg-orange-500/20',
+        expert:
+          'border-transparent bg-red-500/15 text-red-700 dark:text-red-300 [a&]:hover:bg-red-500/20',
       },
       size: {
         sm: 'px-2 py-0.5 text-[11px] [&>svg]:size-3',

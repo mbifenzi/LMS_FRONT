@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import { Toaster } from 'sonner';
-
 import { LoginForm } from '@/components/authForms/login-form';
 import { DecorativeBackground } from '@/components/decorative-background';
 import { ModeToggle } from '@/components/ui/mode-toggle';
@@ -118,7 +116,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }
