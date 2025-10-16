@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import {
+  Bell,
   BookOpen,
   Brain,
   Folder,
@@ -68,6 +69,14 @@ const data = {
       url: '/documentation',
       icon: Folder,
     },
+  ],
+  navBottom: [
+    {
+      title: 'Notifications',
+      url: '/notifications',
+      icon: Bell,
+      badge: 3, // notification counter
+    },
     {
       title: 'Help Center',
       url: '/help',
@@ -93,6 +102,9 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
+        <div className="mt-auto">
+          <NavMain items={data.navBottom} />
+        </div>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

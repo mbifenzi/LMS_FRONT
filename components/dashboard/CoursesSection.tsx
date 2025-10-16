@@ -103,19 +103,6 @@ export default function CoursesSection({
             </div>
           ))}
         </div>
-        {/* Show "Show more" conditionally based on screen size */}
-        {(hasMoreMobile || hasMoreTablet || hasMoreDesktop) && (
-          <div className="mt-6 rounded-md border">
-            <Link
-              href="/course-catalog"
-              className={`hover:bg-accent/50 block w-full rounded-md py-2 text-center text-sm font-medium text-blue-500 transition-colors hover:text-blue-600 ${
-                hasMoreDesktop ? '' : hasMoreTablet ? 'lg:hidden' : 'md:hidden'
-              }`}
-            >
-              Show more courses
-            </Link>
-          </div>
-        )}
       </div>
     );
   };

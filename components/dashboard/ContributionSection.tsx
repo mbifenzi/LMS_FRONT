@@ -145,13 +145,6 @@ export default function ContributionActivity({
             ))}
           </div>
         </div>
-
-        {/* Show more activity button */}
-        <div className="mt-10 rounded-md border">
-          <button className="hover:bg-accent/50 w-full rounded-md py-2 text-center text-sm font-medium text-blue-500 transition-colors hover:text-blue-600">
-            Show more activity
-          </button>
-        </div>
       </div>
     </div>
   );

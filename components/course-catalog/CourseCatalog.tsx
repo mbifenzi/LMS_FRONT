@@ -16,14 +16,7 @@ const ADMIN_TAB_ORDER = [
   'rejected',
   'archived',
 ] as const;
-const STUDENT_TAB_ORDER = [
-  'available',
-  'inProgress',
-  'notStarted',
-  'paused',
-  'abandoned',
-  'completed',
-] as const;
+const STUDENT_TAB_ORDER = ['available', 'inProgress', 'completed'] as const;
 
 interface CourseCatalogClientProps {
   coursesByStatus: Record<string, Course[]>;

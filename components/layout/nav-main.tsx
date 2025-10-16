@@ -1,7 +1,10 @@
 'use client';
 
+import Link from 'next/link';
+
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
 import {
   Collapsible,
   CollapsibleContent,
@@ -25,6 +28,7 @@ export function NavMain({
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
+    badge?: number;
     items?: {
       title: string;
       url: string;
@@ -41,10 +45,18 @@ export function NavMain({
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton tooltip={item.title} asChild>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-                  </a>
+                    {item.badge && item.badge > 0 && (
+                      <Badge
+                        variant="default"
+                        className="ml-auto h-5 w-5 shrink-0 items-center justify-center rounded-full p-0 text-xs"
+                      >
+                        {item.badge > 99 ? '99+' : item.badge}
+                      </Badge>
+                    )}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
