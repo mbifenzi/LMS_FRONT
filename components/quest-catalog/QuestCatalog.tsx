@@ -9,22 +9,42 @@ import QuestFilters from "./QuestFilters";
 import Image from "next/image";
 import Link from "next/link";
 
-const ADMIN_TAB_ORDER = ["published", "draft", "underReview", "rejected", "archived"] as const;
-const STUDENT_TAB_ORDER = ["available", "inProgress", "notStarted", "paused", "abandoned", "completed"] as const;
+const ADMIN_TAB_ORDER = [
+  "published",
+  "draft",
+  "underReview",
+  "rejected",
+  "archived",
+] as const;
+const STUDENT_TAB_ORDER = [
+  "available",
+  "inProgress",
+  "notStarted",
+  "paused",
+  "abandoned",
+  "completed",
+] as const;
 
 interface QuestCatalogClientProps {
   questsByStatus: QuestsByStatus;
   role?: string; // "Student" or other (admin)
 }
 
-export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalogClientProps) {
+export default function QuestCatalogClient({
+  questsByStatus,
+  role,
+}: QuestCatalogClientProps) {
   const isStudent = role === "Student";
 
   // Use provided quests directly (server already fetched 'available' for students)
   const dataByStatus = questsByStatus;
 
   // Memoize tab order based on role
-  const TAB_ORDER = useMemo(() => (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[], [isStudent]);
+  const TAB_ORDER = useMemo(
+    () =>
+      (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[],
+    [isStudent]
+  );
 
   // Labels for display
   const TAB_LABELS: Record<string, string> = {
@@ -52,7 +72,9 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
   }, [TAB_ORDER, activeTab]);
 
   const [search, setSearch] = useState("");
-  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]); // multi-select (empty = ALL)
+  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>(
+    []
+  ); // multi-select (empty = ALL)
   const [sortOption, setSortOption] = useState<string>("POINTS_DESC");
 
   const filteredQuests = useMemo(() => {
@@ -62,7 +84,10 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
       ? base
       : base.filter((item) => {
           const q = search.toLowerCase();
-          return item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+          return (
+            item.name.toLowerCase().includes(q) ||
+            item.description.toLowerCase().includes(q)
+          );
         });
     // difficulty filter (multi) -> empty array means ALL
     if (selectedDifficulties.length > 0) {
@@ -89,13 +114,14 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
 
   function QuestCard({ quest }: { quest: ApiQuest }) {
     const [error, setError] = useState(false);
-    const hasUrl = quest.cover_image_url && quest.cover_image_url.trim().length > 0;
+    const hasUrl =
+      quest.cover_image_url && quest.cover_image_url.trim().length > 0;
     const showPlaceholder = !hasUrl || error;
 
     return (
       <div className="group relative flex flex-col transition rounded-lg">
         <Link
-          href={`/quest/${quest.id}`}
+          href={`/quest-catalog/${quest.id}`}
           aria-label={quest.name}
           className="relative w-full aspect-[4/5] bg-muted overflow-hidden rounded-lg flex items-center justify-center focus:outline-none group-hover:scale-105 duration-300 transition-transform "
         >
@@ -131,7 +157,9 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
               {/* <span className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/25 transition-colors duration-300 mix-blend-multiply pointer-events-none" /> */}
             </>
           )}
-          <span className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wide bg-black/60 text-white backdrop-blur-sm">{quest.difficulty}</span>
+          <span className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wide bg-black/60 text-white backdrop-blur-sm">
+            {quest.difficulty}
+          </span>
           <span className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/25 transition-colors duration-300 mix-blend-multiply pointer-events-none" />
         </Link>
         <div className="p-4 px-0 flex flex-col gap-3">
@@ -144,11 +172,16 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
             </span>
           </div>
 
-          <Link href={`/quest/${quest.id}`} className="text-sm font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors focus:outline-none focus:underline">
+          <Link
+            href={`/quest-catalog/${quest.id}`}
+            className="text-sm font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors focus:outline-none focus:underline"
+          >
             {quest.name}
           </Link>
 
-          <p className="text-xs text-muted-foreground line-clamp-2">{quest.description}</p>
+          <p className="text-xs text-muted-foreground line-clamp-2">
+            {quest.description}
+          </p>
         </div>
       </div>
     );
@@ -188,7 +221,11 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabKey)} className="w-full">
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as TabKey)}
+        className="w-full"
+      >
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <TabsList className="flex flex-wrap gap-1">
             {TAB_ORDER.map((key) => (
@@ -198,11 +235,20 @@ export default function QuestCatalogClient({ questsByStatus, role }: QuestCatalo
             ))}
           </TabsList>
 
-          <QuestFilters selectedDifficulties={selectedDifficulties} onDifficultiesChange={setSelectedDifficulties} sortOption={sortOption} onSortChange={setSortOption} />
+          <QuestFilters
+            selectedDifficulties={selectedDifficulties}
+            onDifficultiesChange={setSelectedDifficulties}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+          />
         </div>
 
         {TAB_ORDER.map((key) => (
-          <TabsContent key={key} value={key} className="mt-6 focus-visible:outline-none">
+          <TabsContent
+            key={key}
+            value={key}
+            className="mt-6 focus-visible:outline-none"
+          >
             {key === activeTab ? renderGrid(filteredQuests) : null}
           </TabsContent>
         ))}

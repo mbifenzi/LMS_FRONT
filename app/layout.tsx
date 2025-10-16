@@ -20,8 +20,8 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: "SASE ",
-  description: "SASE",
+  title: "Astra Learn",
+  description: "Astra Learn",
 };
 
 export default function RootLayout({
@@ -31,8 +31,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${pacifico.variable} antialiased`} suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${pacifico.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

@@ -14,7 +14,7 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setUrl(`${window.location.origin}/quest/${questId}`);
+      setUrl(`${window.location.origin}/quest-catalog/${questId}`);
     }
   }, [questId]);
 
@@ -28,12 +28,27 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={className || "w-full h-10 rounded-md border border-border bg-background hover:bg-accent/50 text-sm font-medium transition-colors"}>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={
+          className ||
+          "w-full h-10 rounded-md border border-border bg-background hover:bg-accent/50 text-sm font-medium transition-colors"
+        }
+      >
         Share
       </button>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="share-title">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setOpen(false)} />
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="share-title"
+        >
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
           <div className="relative z-10 w-full max-w-lg rounded-2xl border bg-card shadow-2xl p-6 sm:p-7 space-y-6">
             <div className="text-center space-y-2">
               <h2 id="share-title" className="text-lg font-semibold">
@@ -44,7 +59,11 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
             <div className="space-y-2">
               <div className="relative rounded-xl border bg-muted/50 p-2">
                 <div className="flex items-center gap-2">
-                  <input readOnly value={url} className="flex-1 rounded-md border-0 bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-0" />
+                  <input
+                    readOnly
+                    value={url}
+                    className="flex-1 rounded-md border-0 bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-0"
+                  />
                   <button
                     type="button"
                     onClick={copyLink}
@@ -52,12 +71,20 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
                     className="inline-flex items-center justify-center rounded-md border bg-background hover:bg-accent/50 text-sm font-medium transition-colors h-9 w-9"
                     title={copied ? "Copied" : "Copy"}
                   >
-                    {copied ? <Check className="w-4 h-4 text-green-600" /> : <CopyIcon className="w-4 h-4" />}
+                    {copied ? (
+                      <Check className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <CopyIcon className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
 
                 {/* Copied tooltip */}
-                {copied && <div className="absolute right-3 -top-2 translate-y-[-100%] rounded-md bg-background border px-2 py-1 text-[11px] font-medium shadow-sm">Copied!</div>}
+                {copied && (
+                  <div className="absolute right-3 -top-2 translate-y-[-100%] rounded-md bg-background border px-2 py-1 text-[11px] font-medium shadow-sm">
+                    Copied!
+                  </div>
+                )}
               </div>
             </div>
           </div>

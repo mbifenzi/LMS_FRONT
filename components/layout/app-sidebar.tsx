@@ -7,6 +7,7 @@ import {
   Trophy,
   Settings2,
   Brain,
+  Folder,
 } from "lucide-react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -24,9 +25,9 @@ import {
 const data = {
   teams: [
     {
-      name: "SASE Platform",
+      name: "Astra Learn",
       logo: "/favicon.ico",
-      plan: "Academic",
+      plan: "Intranet",
     },
     {
       name: "Student Portal",
@@ -55,6 +56,21 @@ const data = {
       title: "Quiz Catalog",
       url: "/quiz-catalog",
       icon: Brain,
+    },
+    {
+      title: "Quest Catalog",
+      url: "/quest-catalog",
+      icon: Trophy,
+    },
+    {
+      title: "Documentation",
+      url: "/documentation",
+      icon: Folder,
+    },
+    {
+      title: "Help Center",
+      url: "/help",
+      icon: BookOpen,
     },
   ],
 };

@@ -15,11 +15,20 @@ export default function ForgotPasswordPage() {
       </div>
 
       <div className="absolute top-6 left-6 z-50">
-        <Link href="/" className="flex items-center gap-3 font-semibold text-lg hover:opacity-80 transition-opacity">
+        <Link
+          href="/"
+          className="flex items-center gap-3 font-semibold text-lg hover:opacity-80 transition-opacity"
+        >
           <div className="flex size-10 items-center justify-center bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-            <Image src="/favicon.ico" alt="SASE Intranet Logo" width={32} height={32} className="rounded-lg" />
+            <Image
+              src="/favicon.ico"
+              alt="Astra Learn Logo"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
           </div>
-          <span className="text-gray-800 dark:text-white">SASE Intranet</span>
+          <span className="text-gray-800 dark:text-white">Astra Learn</span>
         </Link>
       </div>
 
@@ -27,8 +36,12 @@ export default function ForgotPasswordPage() {
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center space-y-3">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reset Password</h1>
-              <p className="text-gray-600 dark:text-gray-300 text-base">Don&apos;t worry, we&apos;ll help you get back into your account</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Reset Password
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300 text-base">
+                Don&apos;t worry, we&apos;ll help you get back into your account
+              </p>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -38,7 +51,10 @@ export default function ForgotPasswordPage() {
             <div className="text-center">
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Remember your password?
-                <Link href="/login" className="ml-1 text-blue-600 dark:text-blue-400 hover:underline">
+                <Link
+                  href="/login"
+                  className="ml-1 text-blue-600 dark:text-blue-400 hover:underline"
+                >
                   Sign in here
                 </Link>
               </p>
@@ -46,19 +62,32 @@ export default function ForgotPasswordPage() {
           </div>
         </div>
         <div className="text-center mt-auto">
-          <p className="text-xs text-gray-400 dark:text-gray-500">© 2025 SASE Intranet. All rights reserved.</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            © 2025 Astra Learn. All rights reserved.
+          </p>
         </div>
       </div>
 
       <div className="relative hidden lg:block overflow-hidden rounded-l-4xl">
-        <Image src="/images/3.jpg" alt="Academic workspace" fill className="object-cover" priority />
+        <Image
+          src="/images/3.jpg"
+          alt="Academic workspace"
+          fill
+          className="object-cover"
+          priority
+        />
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/60 via-blue-600/70 to-slate-800/60"></div>
 
         <div className="absolute inset-0 flex items-center justify-center p-12">
           <div className="text-center text-white space-y-8 max-w-lg">
             <div className="flex justify-center mb-6">
               <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 border border-white/30">
-                <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-16 h-16 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -70,18 +99,27 @@ export default function ForgotPasswordPage() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-4xl font-bold leading-tight">Secure Recovery</h2>
-              <p className="text-xl text-white/90 leading-relaxed">Your account security is our priority. We&apos;ll send you a secure link to reset your password.</p>
+              <h2 className="text-4xl font-bold leading-tight">
+                Secure Recovery
+              </h2>
+              <p className="text-xl text-white/90 leading-relaxed">
+                Your account security is our priority. We&apos;ll send you a
+                secure link to reset your password.
+              </p>
             </div>
 
             <div className="grid grid-cols-3 gap-8 pt-8">
               <div className="text-center">
                 <div className="text-2xl font-semibold">256-bit</div>
-                <div className="text-sm text-white/80 font-medium">Encryption</div>
+                <div className="text-sm text-white/80 font-medium">
+                  Encryption
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-semibold">Instant</div>
-                <div className="text-sm text-white/80 font-medium">Recovery</div>
+                <div className="text-sm text-white/80 font-medium">
+                  Recovery
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-semibold">100%</div>

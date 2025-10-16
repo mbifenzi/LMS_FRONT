@@ -18,17 +18,17 @@ const routeNames: Record<string, string> = {
   "course-catalog": "Course Catalog",
   "quiz-catalog": "Quiz Catalog",
   "quest-catalog": "Quest Catalog",
-  "quest": "Quest",
-  "documentation": "Documentation",
-  "help": "Help",
+  quest: "Quest",
+  documentation: "Documentation",
+  help: "Help Center",
 };
 
 export function DynamicBreadcrumb() {
   const pathname = usePathname();
-  
+
   // Split pathname into segments and filter out empty strings
   const segments = pathname.split("/").filter((segment) => segment !== "");
-  
+
   // If we're on the root/dashboard, show simple breadcrumb
   if (segments.length === 0 || pathname === "/") {
     return (
@@ -55,15 +55,15 @@ export function DynamicBreadcrumb() {
             Dashboard
           </BreadcrumbLink>
         </BreadcrumbItem>
-        
+
         {segments.map((segment, index) => {
           const isLast = index === segments.length - 1;
           const href = "/" + segments.slice(0, index + 1).join("/");
-          
+
           // Check if segment contains an ID (slug format: name-id)
           // If it's a slug with ID, extract the name for display
           let displayName: string;
-          
+
           if (routeNames[segment]) {
             // It's a known route
             displayName = routeNames[segment];
