@@ -1,23 +1,33 @@
-import { AppSidebar } from "@/components/layout/app-sidebar";
-import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Toaster } from "sonner";
-import { fetchCurrentUser } from "@/lib/api/user-api";
+import { Toaster } from 'sonner';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+import { AppSidebar } from '@/components/layout/app-sidebar';
+import { DynamicBreadcrumb } from '@/components/layout/dynamic-breadcrumb';
+import { ModeToggle } from '@/components/ui/mode-toggle';
+import { Separator } from '@/components/ui/separator';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+
+import { fetchCurrentUser } from '@/lib/api/user-api';
+
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // Fetch current user data
   const currentUser = await fetchCurrentUser();
-  
+
   // Generate DiceBear avatar URL based on username or name
-  const seed = currentUser?.username || currentUser?.name || "default";
+  const seed = currentUser?.username || currentUser?.name || 'default';
   const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}`;
-  
+
   // Prepare user data for sidebar
   const user = {
-    name: currentUser?.name || "User",
-    email: currentUser?.email || "user@um6p.ma",
+    name: currentUser?.name || 'User',
+    email: currentUser?.email || 'user@um6p.ma',
     avatar: avatarUrl,
   };
 
@@ -28,7 +38,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
             <DynamicBreadcrumb />
           </div>
           <div className="ml-auto pr-4">

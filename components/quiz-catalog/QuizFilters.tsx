@@ -1,17 +1,19 @@
-import React from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+
+import { Search, SlidersHorizontal } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuCheckboxItem,
+  DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface QuizFiltersProps {
   search: string;
@@ -24,16 +26,28 @@ interface QuizFiltersProps {
   setSortOption: (option: string) => void;
 }
 
-const DIFFICULTIES = ["Easy", "Medium", "Hard", "Expert"];
-const CATEGORIES = ["Web Development", "Programming", "Database", "Frontend", "Backend", "DevOps", "Security", "AI/ML", "Tools", "System Design", "Cloud"];
+const DIFFICULTIES = ['Easy', 'Medium', 'Hard', 'Expert'];
+const CATEGORIES = [
+  'Web Development',
+  'Programming',
+  'Database',
+  'Frontend',
+  'Backend',
+  'DevOps',
+  'Security',
+  'AI/ML',
+  'Tools',
+  'System Design',
+  'Cloud',
+];
 
 const SORT_OPTIONS = [
-  { value: "POINTS_DESC", label: "Points (High to Low)" },
-  { value: "POINTS_ASC", label: "Points (Low to High)" },
-  { value: "DURATION_ASC", label: "Duration (Short to Long)" },
-  { value: "DURATION_DESC", label: "Duration (Long to Short)" },
-  { value: "DIFFICULTY_ASC", label: "Difficulty (Easy to Hard)" },
-  { value: "DIFFICULTY_DESC", label: "Difficulty (Hard to Easy)" },
+  { value: 'POINTS_DESC', label: 'Points (High to Low)' },
+  { value: 'POINTS_ASC', label: 'Points (Low to High)' },
+  { value: 'DURATION_ASC', label: 'Duration (Short to Long)' },
+  { value: 'DURATION_DESC', label: 'Duration (Long to Short)' },
+  { value: 'DIFFICULTY_ASC', label: 'Difficulty (Easy to Hard)' },
+  { value: 'DIFFICULTY_DESC', label: 'Difficulty (Hard to Easy)' },
 ];
 
 export default function QuizFilters({
@@ -48,7 +62,9 @@ export default function QuizFilters({
 }: QuizFiltersProps) {
   const toggleDifficulty = (difficulty: string) => {
     if (selectedDifficulties.includes(difficulty)) {
-      setSelectedDifficulties(selectedDifficulties.filter((d) => d !== difficulty));
+      setSelectedDifficulties(
+        selectedDifficulties.filter((d) => d !== difficulty)
+      );
     } else {
       setSelectedDifficulties([...selectedDifficulties, difficulty]);
     }
@@ -69,24 +85,24 @@ export default function QuizFilters({
     <div className="space-y-4">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
         <input
           type="text"
           placeholder="Search quizzes..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+          className="bg-background focus:ring-ring w-full rounded-lg border py-2 pr-4 pl-10 focus:ring-2 focus:outline-none"
         />
       </div>
 
       {/* Filters Row */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Difficulty Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2">
-                <SlidersHorizontal className="w-4 h-4" />
+                <SlidersHorizontal className="h-4 w-4" />
                 Difficulty
                 {selectedDifficulties.length > 0 && (
                   <Badge variant="secondary" className="ml-1">
@@ -160,7 +176,7 @@ export default function QuizFilters({
             <Badge
               key={difficulty}
               variant="secondary"
-              className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
+              className="hover:bg-destructive hover:text-destructive-foreground cursor-pointer"
               onClick={() => toggleDifficulty(difficulty)}
             >
               {difficulty} ×
@@ -172,7 +188,7 @@ export default function QuizFilters({
             <Badge
               key={category}
               variant="secondary"
-              className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground"
+              className="hover:bg-destructive hover:text-destructive-foreground cursor-pointer"
               onClick={() => toggleCategory(category)}
             >
               {category} ×
@@ -184,13 +200,18 @@ export default function QuizFilters({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
-              Sort: {SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Default"}
+              Sort:{' '}
+              {SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label ||
+                'Default'}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>Sort by</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup value={sortOption} onValueChange={setSortOption}>
+            <DropdownMenuRadioGroup
+              value={sortOption}
+              onValueChange={setSortOption}
+            >
               {SORT_OPTIONS.map((option) => (
                 <DropdownMenuRadioItem key={option.value} value={option.value}>
                   {option.label}

@@ -1,28 +1,33 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState, useEffect } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { ApiQuest } from "@/types/types";
-import { QuestsByStatus } from "./QuestContent";
-import { Clock, Star } from "lucide-react";
-import QuestFilters from "./QuestFilters";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useEffect, useMemo, useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { Clock, Star } from 'lucide-react';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { ApiQuest } from '@/types/types';
+
+import { QuestsByStatus } from './QuestContent';
+import QuestFilters from './QuestFilters';
 
 const ADMIN_TAB_ORDER = [
-  "published",
-  "draft",
-  "underReview",
-  "rejected",
-  "archived",
+  'published',
+  'draft',
+  'underReview',
+  'rejected',
+  'archived',
 ] as const;
 const STUDENT_TAB_ORDER = [
-  "available",
-  "inProgress",
-  "notStarted",
-  "paused",
-  "abandoned",
-  "completed",
+  'available',
+  'inProgress',
+  'notStarted',
+  'paused',
+  'abandoned',
+  'completed',
 ] as const;
 
 interface QuestCatalogClientProps {
@@ -34,7 +39,7 @@ export default function QuestCatalogClient({
   questsByStatus,
   role,
 }: QuestCatalogClientProps) {
-  const isStudent = role === "Student";
+  const isStudent = role === 'Student';
 
   // Use provided quests directly (server already fetched 'available' for students)
   const dataByStatus = questsByStatus;
@@ -48,17 +53,17 @@ export default function QuestCatalogClient({
 
   // Labels for display
   const TAB_LABELS: Record<string, string> = {
-    underReview: "Under Review",
-    inProgress: "In Progress",
-    notStarted: "Not Started",
-    paused: "Paused",
-    abandoned: "Abandoned",
-    completed: "Completed",
-    published: "Published",
-    draft: "Draft",
-    rejected: "Rejected",
-    archived: "Archived",
-    available: "Available",
+    underReview: 'Under Review',
+    inProgress: 'In Progress',
+    notStarted: 'Not Started',
+    paused: 'Paused',
+    abandoned: 'Abandoned',
+    completed: 'Completed',
+    published: 'Published',
+    draft: 'Draft',
+    rejected: 'Rejected',
+    archived: 'Archived',
+    available: 'Available',
   };
 
   type TabKey = string;
@@ -71,11 +76,11 @@ export default function QuestCatalogClient({
     }
   }, [TAB_ORDER, activeTab]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>(
     []
   ); // multi-select (empty = ALL)
-  const [sortOption, setSortOption] = useState<string>("POINTS_DESC");
+  const [sortOption, setSortOption] = useState<string>('POINTS_DESC');
 
   const filteredQuests = useMemo(() => {
     const base = dataByStatus[activeTab] || [];
@@ -96,16 +101,16 @@ export default function QuestCatalogClient({
     // sorting
     list = [...list];
     switch (sortOption) {
-      case "POINTS_ASC":
+      case 'POINTS_ASC':
         list.sort((a, b) => a.reward_points - b.reward_points);
         break;
-      case "POINTS_DESC":
+      case 'POINTS_DESC':
         list.sort((a, b) => b.reward_points - a.reward_points);
         break;
-      case "DURATION_ASC":
+      case 'DURATION_ASC':
         list.sort((a, b) => a.estimated_duration - b.estimated_duration);
         break;
-      case "DURATION_DESC":
+      case 'DURATION_DESC':
         list.sort((a, b) => b.estimated_duration - a.estimated_duration);
         break;
     }
@@ -119,17 +124,17 @@ export default function QuestCatalogClient({
     const showPlaceholder = !hasUrl || error;
 
     return (
-      <div className="group relative flex flex-col transition rounded-lg">
+      <div className="group relative flex flex-col rounded-lg transition">
         <Link
           href={`/quest-catalog/${quest.id}`}
           aria-label={quest.name}
-          className="relative w-full aspect-[4/5] bg-muted overflow-hidden rounded-lg flex items-center justify-center focus:outline-none group-hover:scale-105 duration-300 transition-transform "
+          className="bg-muted relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-105 focus:outline-none"
         >
           {showPlaceholder ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <svg
                 aria-hidden="true"
-                className="w-8 h-8 text-gray-400 dark:text-gray-500"
+                className="h-8 w-8 text-gray-400 dark:text-gray-500"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -157,29 +162,29 @@ export default function QuestCatalogClient({
               {/* <span className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/25 transition-colors duration-300 mix-blend-multiply pointer-events-none" /> */}
             </>
           )}
-          <span className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wide bg-black/60 text-white backdrop-blur-sm">
+          <span className="absolute top-2 right-2 rounded-md bg-black/60 px-2 py-0.5 text-[10px] tracking-wide text-white uppercase backdrop-blur-sm">
             {quest.difficulty}
           </span>
-          <span className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/25 transition-colors duration-300 mix-blend-multiply pointer-events-none" />
+          <span className="pointer-events-none absolute inset-0 bg-blue-600/0 mix-blend-multiply transition-colors duration-300 group-hover:bg-blue-600/25" />
         </Link>
-        <div className="p-4 px-0 flex flex-col gap-3">
-          <div className="flex items-center justify-between text-[11px] font-medium text-muted-foreground">
+        <div className="flex flex-col gap-3 p-4 px-0">
+          <div className="text-muted-foreground flex items-center justify-between text-[11px] font-medium">
             <span className="flex items-center gap-1.5">
-              <Star className="w-3 h-3" /> {quest.reward_points} pts
+              <Star className="h-3 w-3" /> {quest.reward_points} pts
             </span>
             <span className="flex items-center gap-1.5">
-              <Clock className="w-3 h-3" /> {quest.estimated_duration}h
+              <Clock className="h-3 w-3" /> {quest.estimated_duration}h
             </span>
           </div>
 
           <Link
             href={`/quest-catalog/${quest.id}`}
-            className="text-sm font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors focus:outline-none focus:underline"
+            className="group-hover:text-primary line-clamp-2 text-sm leading-tight font-semibold transition-colors focus:underline focus:outline-none"
           >
             {quest.name}
           </Link>
 
-          <p className="text-xs text-muted-foreground line-clamp-2">
+          <p className="text-muted-foreground line-clamp-2 text-xs">
             {quest.description}
           </p>
         </div>
@@ -190,8 +195,8 @@ export default function QuestCatalogClient({
   const renderGrid = (list: ApiQuest[]) => {
     if (!list.length) {
       return (
-        <div className="text-center py-16 border rounded-xl bg-accent/40 dark:bg-old-background/40">
-          <p className="text-sm text-muted-foreground">No quests found.</p>
+        <div className="bg-accent/40 dark:bg-old-background/40 rounded-xl border py-16 text-center">
+          <p className="text-muted-foreground text-sm">No quests found.</p>
         </div>
       );
     }
@@ -211,12 +216,12 @@ export default function QuestCatalogClient({
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Quest Catalog</h1>
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
+        <div className="flex w-full gap-2 md:w-auto">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search quests..."
-            className="w-full md:w-64 rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            className="bg-background focus:ring-ring w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:outline-none md:w-64"
           />
         </div>
       </div>
@@ -226,7 +231,7 @@ export default function QuestCatalogClient({
         onValueChange={(v) => setActiveTab(v as TabKey)}
         className="w-full"
       >
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <TabsList className="flex flex-wrap gap-1">
             {TAB_ORDER.map((key) => (
               <TabsTrigger key={key} value={key} className="capitalize">

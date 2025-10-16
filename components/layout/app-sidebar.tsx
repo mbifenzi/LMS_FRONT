@@ -1,75 +1,76 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
+
 import {
   BookOpen,
-  LayoutDashboard,
-  Trophy,
-  Settings2,
   Brain,
   Folder,
-} from "lucide-react";
+  LayoutDashboard,
+  Settings2,
+  Trophy,
+} from 'lucide-react';
 
-import { NavMain } from "@/components/layout/nav-main";
-import { NavUser } from "@/components/layout/nav-user";
-import { TeamSwitcher } from "@/components/layout/team-switcher";
+import { NavMain } from '@/components/layout/nav-main';
+import { NavUser } from '@/components/layout/nav-user';
+import { TeamSwitcher } from '@/components/layout/team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 // This is sample data.
 const data = {
   teams: [
     {
-      name: "Astra Learn",
-      logo: "/favicon.ico",
-      plan: "Intranet",
+      name: 'Astra Learn',
+      logo: '/favicon.ico',
+      plan: 'Intranet',
     },
     {
-      name: "Student Portal",
+      name: 'Student Portal',
       logo: BookOpen,
-      plan: "Education",
+      plan: 'Education',
     },
     {
-      name: "Admin Panel",
+      name: 'Admin Panel',
       logo: Settings2,
-      plan: "Management",
+      plan: 'Management',
     },
   ],
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
+      title: 'Dashboard',
+      url: '/',
       icon: LayoutDashboard,
       isActive: true,
     },
     {
-      title: "Course Catalog",
-      url: "/course-catalog",
+      title: 'Course Catalog',
+      url: '/course-catalog',
       icon: Trophy,
     },
     {
-      title: "Quiz Catalog",
-      url: "/quiz-catalog",
+      title: 'Quiz Catalog',
+      url: '/quiz-catalog',
       icon: Brain,
     },
     {
-      title: "Quest Catalog",
-      url: "/quest-catalog",
+      title: 'Quest Catalog',
+      url: '/quest-catalog',
       icon: Trophy,
     },
     {
-      title: "Documentation",
-      url: "/documentation",
+      title: 'Documentation',
+      url: '/documentation',
       icon: Folder,
     },
     {
-      title: "Help Center",
-      url: "/help",
+      title: 'Help Center',
+      url: '/help',
       icon: BookOpen,
     },
   ],

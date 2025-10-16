@@ -1,11 +1,13 @@
-import { type Quiz } from "@/lib/mock-data/quizzes";
+import { type Quiz } from '@/lib/mock-data/quizzes';
 
 // API client for quiz-related operations
 export class QuizApiClient {
   private baseUrl: string;
   private token?: string;
 
-  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000') {
+  constructor(
+    baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+  ) {
     this.baseUrl = baseUrl;
   }
 
@@ -13,7 +15,10 @@ export class QuizApiClient {
     this.token = token;
   }
 
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -27,7 +32,9 @@ export class QuizApiClient {
     });
 
     if (!response.ok) {
-      throw new Error(`Quiz API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Quiz API error: ${response.status} ${response.statusText}`
+      );
     }
 
     return response.json();
@@ -49,7 +56,7 @@ export class QuizApiClient {
         }
       });
     }
-    
+
     return this.request<{ quizzes: Quiz[]; total: number }>(
       `/api/v1/quizzes?${queryParams.toString()}`
     );
@@ -59,14 +66,18 @@ export class QuizApiClient {
     return this.request<Quiz>(`/api/v1/quizzes/${id}`);
   }
 
-  async enrollInQuiz(quizId: string): Promise<{ success: boolean; message: string }> {
+  async enrollInQuiz(
+    quizId: string
+  ): Promise<{ success: boolean; message: string }> {
     return this.request<{ success: boolean; message: string }>(
       `/api/v1/quizzes/${quizId}/enroll`,
       { method: 'POST' }
     );
   }
 
-  async unenrollFromQuiz(quizId: string): Promise<{ success: boolean; message: string }> {
+  async unenrollFromQuiz(
+    quizId: string
+  ): Promise<{ success: boolean; message: string }> {
     return this.request<{ success: boolean; message: string }>(
       `/api/v1/quizzes/${quizId}/unenroll`,
       { method: 'DELETE' }
@@ -74,7 +85,7 @@ export class QuizApiClient {
   }
 
   async submitQuizAttempt(
-    quizId: string, 
+    quizId: string,
     answers: { [questionId: string]: number }
   ): Promise<{
     score: number;
@@ -95,20 +106,24 @@ export class QuizApiClient {
     });
   }
 
-  async getQuizAttempts(quizId: string): Promise<Array<{
-    id: string;
-    score: number;
-    passed: boolean;
-    submittedAt: string;
-    duration: string;
-  }>> {
-    return this.request<Array<{
+  async getQuizAttempts(quizId: string): Promise<
+    Array<{
       id: string;
       score: number;
       passed: boolean;
       submittedAt: string;
       duration: string;
-    }>>(`/api/v1/quizzes/${quizId}/attempts`);
+    }>
+  > {
+    return this.request<
+      Array<{
+        id: string;
+        score: number;
+        passed: boolean;
+        submittedAt: string;
+        duration: string;
+      }>
+    >(`/api/v1/quizzes/${quizId}/attempts`);
   }
 
   async getUserQuizzes(userId?: string): Promise<{
@@ -117,7 +132,9 @@ export class QuizApiClient {
     active: Quiz[];
     available: Quiz[];
   }> {
-    const endpoint = userId ? `/api/v1/users/${userId}/quizzes` : '/api/v1/me/quizzes';
+    const endpoint = userId
+      ? `/api/v1/users/${userId}/quizzes`
+      : '/api/v1/me/quizzes';
     return this.request<{
       enrolled: Quiz[];
       completed: Quiz[];
@@ -127,7 +144,9 @@ export class QuizApiClient {
   }
 
   // Quiz management (for instructors/admins)
-  async createQuiz(quizData: Omit<Quiz, 'id' | 'status' | 'progress'>): Promise<Quiz> {
+  async createQuiz(
+    quizData: Omit<Quiz, 'id' | 'status' | 'progress'>
+  ): Promise<Quiz> {
     return this.request<Quiz>('/api/v1/quizzes', {
       method: 'POST',
       body: JSON.stringify(quizData),

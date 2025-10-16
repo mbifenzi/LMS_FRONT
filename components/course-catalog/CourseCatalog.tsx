@@ -1,41 +1,64 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState, useEffect } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Course } from "@/lib/mock-data/courses";
-import CourseCard from "@/components/shared/CourseCard";
-import CourseFilters from "./CourseFilters";
+import React, { useEffect, useMemo, useState } from 'react';
 
-const ADMIN_TAB_ORDER = ["published", "draft", "underReview", "rejected", "archived"] as const;
-const STUDENT_TAB_ORDER = ["available", "inProgress", "notStarted", "paused", "abandoned", "completed"] as const;
+import CourseCard from '@/components/shared/CourseCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { Course } from '@/lib/mock-data/courses';
+
+import CourseFilters from './CourseFilters';
+
+const ADMIN_TAB_ORDER = [
+  'published',
+  'draft',
+  'underReview',
+  'rejected',
+  'archived',
+] as const;
+const STUDENT_TAB_ORDER = [
+  'available',
+  'inProgress',
+  'notStarted',
+  'paused',
+  'abandoned',
+  'completed',
+] as const;
 
 interface CourseCatalogClientProps {
   coursesByStatus: Record<string, Course[]>;
   role?: string; // "Student" or other (admin)
 }
 
-export default function CourseCatalogClient({ coursesByStatus, role }: CourseCatalogClientProps) {
-  const isStudent = role === "Student";
+export default function CourseCatalogClient({
+  coursesByStatus,
+  role,
+}: CourseCatalogClientProps) {
+  const isStudent = role === 'Student';
 
   // Use provided courses directly (server already fetched 'available' for students)
   const dataByStatus = coursesByStatus;
 
   // Memoize tab order based on role
-  const TAB_ORDER = useMemo(() => (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[], [isStudent]);
+  const TAB_ORDER = useMemo(
+    () =>
+      (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[],
+    [isStudent]
+  );
 
   // Labels for display
   const TAB_LABELS: Record<string, string> = {
-    underReview: "Under Review",
-    inProgress: "In Progress",
-    notStarted: "Not Started",
-    paused: "Paused",
-    abandoned: "Abandoned",
-    completed: "Completed",
-    published: "Published",
-    draft: "Draft",
-    rejected: "Rejected",
-    archived: "Archived",
-    available: "Available",
+    underReview: 'Under Review',
+    inProgress: 'In Progress',
+    notStarted: 'Not Started',
+    paused: 'Paused',
+    abandoned: 'Abandoned',
+    completed: 'Completed',
+    published: 'Published',
+    draft: 'Draft',
+    rejected: 'Rejected',
+    archived: 'Archived',
+    available: 'Available',
   };
 
   type TabKey = string;
@@ -48,41 +71,62 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
     }
   }, [TAB_ORDER, activeTab]);
 
-  const [search, setSearch] = useState("");
-  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]); // multi-select (empty = ALL)
-  const [sortOption, setSortOption] = useState<string>("POINTS_DESC");
+  const [search, setSearch] = useState('');
+  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>(
+    []
+  ); // multi-select (empty = ALL)
+  const [sortOption, setSortOption] = useState<string>('POINTS_DESC');
 
   const filteredCourses = useMemo(() => {
     const base = dataByStatus[activeTab] || [];
     // text search
-    const byText = base.filter((course: Course) => course.name.toLowerCase().includes(search.toLowerCase()) || course.description?.toLowerCase().includes(search.toLowerCase()));
+    const byText = base.filter(
+      (course: Course) =>
+        course.name.toLowerCase().includes(search.toLowerCase()) ||
+        course.description?.toLowerCase().includes(search.toLowerCase())
+    );
     // difficulty filter
-    const byDifficulty = selectedDifficulties.length === 0 ? byText : byText.filter((course: Course) => selectedDifficulties.includes(course.difficulty));
+    const byDifficulty =
+      selectedDifficulties.length === 0
+        ? byText
+        : byText.filter((course: Course) =>
+            selectedDifficulties.includes(course.difficulty)
+          );
 
     // sort
     const sorted = [...byDifficulty];
     switch (sortOption) {
-      case "POINTS_ASC":
+      case 'POINTS_ASC':
         sorted.sort((a, b) => a.points - b.points);
         break;
-      case "POINTS_DESC":
+      case 'POINTS_DESC':
         sorted.sort((a, b) => b.points - a.points);
         break;
-      case "DURATION_ASC":
+      case 'DURATION_ASC':
         sorted.sort((a, b) => parseInt(a.duration) - parseInt(b.duration));
         break;
-      case "DURATION_DESC":
+      case 'DURATION_DESC':
         sorted.sort((a, b) => parseInt(b.duration) - parseInt(a.duration));
         break;
-      case "DIFFICULTY_ASC":
+      case 'DIFFICULTY_ASC':
         sorted.sort((a, b) => {
-          const order = { "Beginner": 0, "Intermediate": 1, "Advanced": 2, "Expert": 3 };
+          const order = {
+            Beginner: 0,
+            Intermediate: 1,
+            Advanced: 2,
+            Expert: 3,
+          };
           return order[a.difficulty] - order[b.difficulty];
         });
         break;
-      case "DIFFICULTY_DESC":
+      case 'DIFFICULTY_DESC':
         sorted.sort((a, b) => {
-          const order = { "Beginner": 0, "Intermediate": 1, "Advanced": 2, "Expert": 3 };
+          const order = {
+            Beginner: 0,
+            Intermediate: 1,
+            Advanced: 2,
+            Expert: 3,
+          };
           return order[b.difficulty] - order[a.difficulty];
         });
         break;
@@ -94,14 +138,16 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
   const renderCourseGrid = (courseList: Course[]) => {
     if (courseList.length === 0) {
       return (
-        <div className="text-center py-12 bg-accent/50 dark:bg-old-background rounded-lg border">
-          <p className="text-sm text-muted-foreground">No courses found in this category.</p>
+        <div className="bg-accent/50 dark:bg-old-background rounded-lg border py-12 text-center">
+          <p className="text-muted-foreground text-sm">
+            No courses found in this category.
+          </p>
         </div>
       );
     }
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {courseList.map((course) => (
           <CourseCard key={course.id} course={course} variant="dashboard" />
         ))}
@@ -110,19 +156,20 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6">
+    <div className="container mx-auto space-y-6 px-4 py-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Course Catalog</h1>
           <p className="text-muted-foreground text-sm">
-            {filteredCourses.length} course{filteredCourses.length !== 1 ? "s" : ""} found
+            {filteredCourses.length} course
+            {filteredCourses.length !== 1 ? 's' : ''} found
           </p>
         </div>
       </div>
 
       {/* Filters */}
-      <CourseFilters 
+      <CourseFilters
         search={search}
         setSearch={setSearch}
         selectedDifficulties={selectedDifficulties}
@@ -132,7 +179,11 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
       />
 
       {/* Tabs */}
-      <Tabs className="w-full" value={activeTab} onValueChange={(v) => setActiveTab(v as TabKey)}>
+      <Tabs
+        className="w-full"
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as TabKey)}
+      >
         <TabsList className="flex flex-wrap gap-1">
           {TAB_ORDER.map((key) => (
             <TabsTrigger key={key} value={key} className="capitalize">
@@ -149,4 +200,3 @@ export default function CourseCatalogClient({ coursesByStatus, role }: CourseCat
     </div>
   );
 }
-

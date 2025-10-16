@@ -32,11 +32,7 @@
         "intro_video_url": "",
         "resources": {},
         "reward_points": 550,
-        "reward_badges": [
-          "legendary_smith",
-          "weapon_master",
-          "forge_guardian"
-        ],
+        "reward_badges": ["legendary_smith", "weapon_master", "forge_guardian"],
         "reward_certificates": [],
         "total_points": 550,
         "total_duration": 30

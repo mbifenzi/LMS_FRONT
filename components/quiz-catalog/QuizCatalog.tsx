@@ -1,30 +1,42 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState, useEffect } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { quizzesByStatus, type Quiz } from "@/lib/mock-data/quizzes";
-import QuizCard from "@/components/shared/QuizCard";
-import QuizFilters from "./QuizFilters";
+import React, { useEffect, useMemo, useState } from 'react';
 
-const ADMIN_TAB_ORDER = ["available", "locked"] as const;
-const STUDENT_TAB_ORDER = ["available", "in-progress", "completed", "locked"] as const;
+import QuizCard from '@/components/shared/QuizCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { type Quiz, quizzesByStatus } from '@/lib/mock-data/quizzes';
+
+import QuizFilters from './QuizFilters';
+
+const ADMIN_TAB_ORDER = ['available', 'locked'] as const;
+const STUDENT_TAB_ORDER = [
+  'available',
+  'in-progress',
+  'completed',
+  'locked',
+] as const;
 
 interface QuizCatalogClientProps {
   role?: string; // "Student" or other (admin)
 }
 
 export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
-  const isStudent = role === "Student";
+  const isStudent = role === 'Student';
 
   // Memoize tab order based on role
-  const TAB_ORDER = useMemo(() => (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[], [isStudent]);
+  const TAB_ORDER = useMemo(
+    () =>
+      (isStudent ? STUDENT_TAB_ORDER : ADMIN_TAB_ORDER) as readonly string[],
+    [isStudent]
+  );
 
   // Labels for display
   const TAB_LABELS: Record<string, string> = {
-    available: "Available",
-    "in-progress": "In Progress", 
-    completed: "Completed",
-    locked: "Locked",
+    available: 'Available',
+    'in-progress': 'In Progress',
+    completed: 'Completed',
+    locked: 'Locked',
   };
 
   type TabKey = string;
@@ -37,45 +49,59 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
     }
   }, [TAB_ORDER, activeTab]);
 
-  const [search, setSearch] = useState("");
-  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]); // multi-select (empty = ALL)
+  const [search, setSearch] = useState('');
+  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>(
+    []
+  ); // multi-select (empty = ALL)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [sortOption, setSortOption] = useState<string>("POINTS_DESC");
+  const [sortOption, setSortOption] = useState<string>('POINTS_DESC');
 
   const filteredQuizzes = useMemo(() => {
-    const base = quizzesByStatus[activeTab as keyof typeof quizzesByStatus] || [];
+    const base =
+      quizzesByStatus[activeTab as keyof typeof quizzesByStatus] || [];
     // text search
-    const byText = base.filter((quiz) => 
-      quiz.title.toLowerCase().includes(search.toLowerCase()) || 
-      quiz.description?.toLowerCase().includes(search.toLowerCase())
+    const byText = base.filter(
+      (quiz) =>
+        quiz.title.toLowerCase().includes(search.toLowerCase()) ||
+        quiz.description?.toLowerCase().includes(search.toLowerCase())
     );
     // difficulty filter
-    const byDifficulty = selectedDifficulties.length === 0 ? byText : byText.filter((quiz) => selectedDifficulties.includes(quiz.difficulty));
+    const byDifficulty =
+      selectedDifficulties.length === 0
+        ? byText
+        : byText.filter((quiz) =>
+            selectedDifficulties.includes(quiz.difficulty)
+          );
     // category filter
-    const byCategory = selectedCategories.length === 0 ? byDifficulty : byDifficulty.filter((quiz) => selectedCategories.includes(quiz.category));
+    const byCategory =
+      selectedCategories.length === 0
+        ? byDifficulty
+        : byDifficulty.filter((quiz) =>
+            selectedCategories.includes(quiz.category)
+          );
 
     // sort
     const sorted = [...byCategory];
     switch (sortOption) {
-      case "POINTS_ASC":
+      case 'POINTS_ASC':
         sorted.sort((a, b) => a.points - b.points);
         break;
-      case "POINTS_DESC":
+      case 'POINTS_DESC':
         sorted.sort((a, b) => b.points - a.points);
         break;
-      case "DURATION_ASC":
+      case 'DURATION_ASC':
         sorted.sort((a, b) => a.duration - b.duration);
         break;
-      case "DURATION_DESC":
+      case 'DURATION_DESC':
         sorted.sort((a, b) => b.duration - a.duration);
         break;
-      case "DIFFICULTY_ASC":
+      case 'DIFFICULTY_ASC':
         sorted.sort((a, b) => {
           const order = { Easy: 0, Medium: 1, Hard: 2, Expert: 3 };
           return order[a.difficulty] - order[b.difficulty];
         });
         break;
-      case "DIFFICULTY_DESC":
+      case 'DIFFICULTY_DESC':
         sorted.sort((a, b) => {
           const order = { Easy: 0, Medium: 1, Hard: 2, Expert: 3 };
           return order[b.difficulty] - order[a.difficulty];
@@ -89,14 +115,16 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
   const renderQuizGrid = (quizList: Quiz[]) => {
     if (quizList.length === 0) {
       return (
-        <div className="text-center py-12 bg-accent/50 dark:bg-old-background rounded-lg border">
-          <p className="text-sm text-muted-foreground">No quizzes found in this category.</p>
+        <div className="bg-accent/50 dark:bg-old-background rounded-lg border py-12 text-center">
+          <p className="text-muted-foreground text-sm">
+            No quizzes found in this category.
+          </p>
         </div>
       );
     }
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {quizList.map((quiz) => (
           <QuizCard key={quiz.id} quiz={quiz} variant="dashboard" />
         ))}
@@ -105,19 +133,20 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6">
+    <div className="container mx-auto space-y-6 px-4 py-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Quiz Catalog</h1>
           <p className="text-muted-foreground text-sm">
-            {filteredQuizzes.length} quiz{filteredQuizzes.length !== 1 ? "zes" : ""} found
+            {filteredQuizzes.length} quiz
+            {filteredQuizzes.length !== 1 ? 'zes' : ''} found
           </p>
         </div>
       </div>
 
       {/* Filters */}
-      <QuizFilters 
+      <QuizFilters
         search={search}
         setSearch={setSearch}
         selectedDifficulties={selectedDifficulties}
@@ -129,7 +158,11 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
       />
 
       {/* Tabs */}
-      <Tabs className="w-full" value={activeTab} onValueChange={(v) => setActiveTab(v as TabKey)}>
+      <Tabs
+        className="w-full"
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as TabKey)}
+      >
         <TabsList className="flex flex-wrap gap-1">
           {TAB_ORDER.map((key) => (
             <TabsTrigger key={key} value={key} className="capitalize">
@@ -146,4 +179,3 @@ export default function QuizCatalogClient({ role }: QuizCatalogClientProps) {
     </div>
   );
 }
-

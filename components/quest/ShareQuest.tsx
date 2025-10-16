@@ -1,6 +1,8 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { Check, Copy as CopyIcon } from "lucide-react";
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+import { Check, Copy as CopyIcon } from 'lucide-react';
 
 interface ShareQuestProps {
   questId: string;
@@ -9,11 +11,11 @@ interface ShareQuestProps {
 
 export default function ShareQuest({ questId, className }: ShareQuestProps) {
   const [open, setOpen] = useState(false);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       setUrl(`${window.location.origin}/quest-catalog/${questId}`);
     }
   }, [questId]);
@@ -33,7 +35,7 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
         onClick={() => setOpen(true)}
         className={
           className ||
-          "w-full h-10 rounded-md border border-border bg-background hover:bg-accent/50 text-sm font-medium transition-colors"
+          'border-border bg-background hover:bg-accent/50 h-10 w-full rounded-md border text-sm font-medium transition-colors'
         }
       >
         Share
@@ -49,39 +51,39 @@ export default function ShareQuest({ questId, className }: ShareQuestProps) {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
-          <div className="relative z-10 w-full max-w-lg rounded-2xl border bg-card shadow-2xl p-6 sm:p-7 space-y-6">
-            <div className="text-center space-y-2">
+          <div className="bg-card relative z-10 w-full max-w-lg space-y-6 rounded-2xl border p-6 shadow-2xl sm:p-7">
+            <div className="space-y-2 text-center">
               <h2 id="share-title" className="text-lg font-semibold">
                 Share Quest
               </h2>
             </div>
 
             <div className="space-y-2">
-              <div className="relative rounded-xl border bg-muted/50 p-2">
+              <div className="bg-muted/50 relative rounded-xl border p-2">
                 <div className="flex items-center gap-2">
                   <input
                     readOnly
                     value={url}
-                    className="flex-1 rounded-md border-0 bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-0"
+                    className="flex-1 rounded-md border-0 bg-transparent px-3 py-2 text-sm focus:ring-0 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={copyLink}
-                    aria-label={copied ? "Copied" : "Copy link"}
-                    className="inline-flex items-center justify-center rounded-md border bg-background hover:bg-accent/50 text-sm font-medium transition-colors h-9 w-9"
-                    title={copied ? "Copied" : "Copy"}
+                    aria-label={copied ? 'Copied' : 'Copy link'}
+                    className="bg-background hover:bg-accent/50 inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm font-medium transition-colors"
+                    title={copied ? 'Copied' : 'Copy'}
                   >
                     {copied ? (
-                      <Check className="w-4 h-4 text-green-600" />
+                      <Check className="h-4 w-4 text-green-600" />
                     ) : (
-                      <CopyIcon className="w-4 h-4" />
+                      <CopyIcon className="h-4 w-4" />
                     )}
                   </button>
                 </div>
 
                 {/* Copied tooltip */}
                 {copied && (
-                  <div className="absolute right-3 -top-2 translate-y-[-100%] rounded-md bg-background border px-2 py-1 text-[11px] font-medium shadow-sm">
+                  <div className="bg-background absolute -top-2 right-3 translate-y-[-100%] rounded-md border px-2 py-1 text-[11px] font-medium shadow-sm">
                     Copied!
                   </div>
                 )}

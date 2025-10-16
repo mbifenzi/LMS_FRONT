@@ -1,14 +1,14 @@
-import CourseContent from "@/components/course-catalog/CourseContent";
+import CourseContent from '@/components/course-catalog/CourseContent';
 
 export const metadata = {
-  title: "Course Catalog",
-  description: "Browse available courses",
+  title: 'Course Catalog',
+  description: 'Browse available courses',
 };
 
 export default function CourseCatalogPage() {
   // Use mock user role - you can change this as needed
-  const mockUserRole = "Student";
-  
+  const mockUserRole = 'Student';
+
   return (
     <div>
       <CourseContent role={mockUserRole} />

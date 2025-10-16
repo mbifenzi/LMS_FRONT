@@ -8,11 +8,11 @@ export function slugify(text: string): string {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
-    .replace(/\-\-+/g, "-") // Replace multiple - with single -
-    .replace(/^-+/, "") // Trim - from start of text
-    .replace(/-+$/, ""); // Trim - from end of text
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
 }
 
 /**
@@ -32,7 +32,7 @@ export function createSlugWithId(name: string, id: string | number): string {
  * @returns The extracted ID
  */
 export function extractIdFromSlug(slug: string): string {
-  const parts = slug.split("-");
+  const parts = slug.split('-');
   return parts[parts.length - 1];
 }
 
@@ -42,10 +42,10 @@ export function extractIdFromSlug(slug: string): string {
  * @returns The name part formatted for display
  */
 export function extractNameFromSlug(slug: string): string {
-  const parts = slug.split("-");
+  const parts = slug.split('-');
   // Remove the last part (ID) and join back
   const nameParts = parts.slice(0, -1);
   return nameParts
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .join(' ');
 }

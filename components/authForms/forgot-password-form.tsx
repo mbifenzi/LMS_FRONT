@@ -1,13 +1,19 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState } from 'react';
 
-export function ForgotPasswordForm({ className, ...props }: React.ComponentProps<"form">) {
+import { useRouter } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+import { cn } from '@/lib/utils';
+
+export function ForgotPasswordForm({
+  className,
+  ...props
+}: React.ComponentProps<'form'>) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,21 +30,32 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   };
 
   const handleBackToLogin = () => {
-    router.push("/login");
+    router.push('/login');
   };
 
   if (isSubmitted) {
     return (
-      <div className={cn("flex flex-col gap-6", className)}>
+      <div className={cn('flex flex-col gap-6', className)}>
         <div className="flex flex-col items-center gap-2 text-center">
-          <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
+            <svg
+              className="h-6 w-6 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              ></path>
             </svg>
           </div>
           <h2 className="text-2xl font-bold">Check Your Email</h2>
           <p className="text-muted-foreground text-sm text-balance">
-            We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the instructions to reset your password.
+            We&apos;ve sent a password reset link to your email address. Please
+            check your inbox and follow the instructions to reset your password.
           </p>
         </div>
         <div className="grid gap-6">
@@ -51,20 +68,39 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   }
 
   return (
-    <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit} {...props}>
+    <form
+      className={cn('flex flex-col gap-6', className)}
+      onSubmit={handleSubmit}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h2 className="text-2xl font-bold">Forgot Password?</h2>
-        <p className="text-muted-foreground text-sm text-balance">Enter your email address and we&apos;ll send you a link to reset your password.</p>
+        <p className="text-muted-foreground text-sm text-balance">
+          Enter your email address and we&apos;ll send you a link to reset your
+          password.
+        </p>
       </div>
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required disabled={isLoading} />
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+            disabled={isLoading}
+          />
         </div>
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send Reset Link"}
+          {isLoading ? 'Sending...' : 'Send Reset Link'}
         </Button>
-        <Button type="button" variant="outline" className="w-full" onClick={handleBackToLogin} disabled={isLoading}>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={handleBackToLogin}
+          disabled={isLoading}
+        >
           Back to Login
         </Button>
       </div>

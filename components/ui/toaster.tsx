@@ -1,8 +1,15 @@
-"use client";
+'use client';
 
-import { useToast } from "@/hooks/use-toast";
-import { Toast, ToastClose, ToastDescription, ToastTitle } from "@/components/ui/toast";
-import { CheckCircle, AlertCircle, Info } from "lucide-react";
+import { AlertCircle, CheckCircle, Info } from 'lucide-react';
+
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastTitle,
+} from '@/components/ui/toast';
+
+import { useToast } from '@/hooks/use-toast';
 
 export function Toaster() {
   const { toasts, dismiss } = useToast();
@@ -21,7 +28,7 @@ export function Toaster() {
   };
 
   const getVariant = (type: string) => {
-    return type === 'error' ? 'destructive' as const : 'default' as const;
+    return type === 'error' ? ('destructive' as const) : ('default' as const);
   };
 
   return (

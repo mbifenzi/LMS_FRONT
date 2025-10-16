@@ -1,10 +1,13 @@
-"use client";
+'use client';
 
-import { ChevronsUpDown, LogOut, User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState } from 'react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from 'next/navigation';
+
+import { ChevronsUpDown, LogOut, User } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,15 +16,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { logoutUser } from "@/lib/api/user-api-client";
-import { toast } from "sonner";
+} from '@/components/ui/sidebar';
+
+import { logoutUser } from '@/lib/api/user-api-client';
 
 export function NavUser({
   user,
@@ -38,9 +41,9 @@ export function NavUser({
 
   // Generate initials from user name
   const initials = user.name
-    .split(" ")
+    .split(' ')
     .map((n) => n[0])
-    .join("")
+    .join('')
     .toUpperCase()
     .slice(0, 2);
 
@@ -68,7 +71,7 @@ export function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -102,14 +105,14 @@ export function NavUser({
                 const res = await logoutUser();
                 setLoading(false);
                 if (res.success) {
-                  toast.success("Logged out", {
-                    description: "You have been logged out.",
+                  toast.success('Logged out', {
+                    description: 'You have been logged out.',
                   });
                   // redirect to login page
-                  router.push("/login");
+                  router.push('/login');
                 } else {
-                  toast.error("Logout failed", {
-                    description: res.message || "Could not log out.",
+                  toast.error('Logout failed', {
+                    description: res.message || 'Could not log out.',
                   });
                 }
               }}
