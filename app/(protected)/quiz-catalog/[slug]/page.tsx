@@ -1,11 +1,16 @@
-import { notFound } from "next/navigation";
-import { extractIdFromSlug } from "@/lib/utils/slug";
-import Quiz from "@/components/quiz/Quiz";
-import { quizzesByStatus, type Quiz as QuizType } from "@/lib/mock-data/quizzes";
+import { notFound } from 'next/navigation';
+
+import Quiz from '@/components/quiz/Quiz';
+
+import {
+  type Quiz as QuizType,
+  quizzesByStatus,
+} from '@/lib/mock-data/quizzes';
+import { extractIdFromSlug } from '@/lib/utils/slug';
 
 export const metadata = {
-  title: "Quiz",
-  description: "Take a quiz",
+  title: 'Quiz',
+  description: 'Take a quiz',
 };
 
 interface QuizPageProps {
@@ -18,21 +23,21 @@ interface QuizPageProps {
 function findQuizById(id: string): QuizType | null {
   const allQuizzes = [
     ...quizzesByStatus.available,
-    ...quizzesByStatus["in-progress"],
+    ...quizzesByStatus['in-progress'],
     ...quizzesByStatus.completed,
     ...quizzesByStatus.locked,
   ];
-  
-  return allQuizzes.find(quiz => quiz.id === parseInt(id)) || null;
+
+  return allQuizzes.find((quiz) => quiz.id === parseInt(id)) || null;
 }
 
 export default async function QuizPage({ params }: QuizPageProps) {
   // Await params in Next.js 15
   const { slug } = await params;
-  
+
   // Extract the ID from the slug
   const quizId = extractIdFromSlug(slug);
-  
+
   // Find the quiz by ID
   const quiz = findQuizById(quizId);
 

@@ -1,18 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+
+import { ArrowUpDown, Filter } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuCheckboxItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Filter, ArrowUpDown } from "lucide-react";
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface QuestFiltersProps {
   selectedDifficulties: string[]; // empty = ALL
@@ -21,9 +23,19 @@ interface QuestFiltersProps {
   onSortChange: (v: string) => void;
 }
 
-const ALL_DIFFICULTIES = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"] as const;
+const ALL_DIFFICULTIES = [
+  'BEGINNER',
+  'INTERMEDIATE',
+  'ADVANCED',
+  'EXPERT',
+] as const;
 
-export default function QuestFilters({ selectedDifficulties, onDifficultiesChange, sortOption, onSortChange }: QuestFiltersProps) {
+export default function QuestFilters({
+  selectedDifficulties,
+  onDifficultiesChange,
+  sortOption,
+  onSortChange,
+}: QuestFiltersProps) {
   const isAll = selectedDifficulties.length === 0;
 
   const toggleDifficulty = (diff: string, checked: boolean | string) => {
@@ -53,24 +65,34 @@ export default function QuestFilters({ selectedDifficulties, onDifficultiesChang
     }
   };
 
-  const badgeLabel = isAll ? "all" : selectedDifficulties.length === 1 ? selectedDifficulties[0].toLowerCase() : `${selectedDifficulties.length} selected`;
+  const badgeLabel = isAll
+    ? 'all'
+    : selectedDifficulties.length === 1
+      ? selectedDifficulties[0].toLowerCase()
+      : `${selectedDifficulties.length} selected`;
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-[10px] px-2 py-1 rounded-md bg-muted border uppercase tracking-wide font-medium">{badgeLabel}</span>
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="bg-muted rounded-md border px-2 py-1 text-[10px] font-medium tracking-wide uppercase">
+        {badgeLabel}
+      </span>
 
       {/* Difficulty Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="gap-1">
-            <Filter className="w-3.5 h-3.5" /> Difficulty
+            <Filter className="h-3.5 w-3.5" /> Difficulty
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-52">
-          <DropdownMenuLabel className="flex items-center justify-between w-full">
+          <DropdownMenuLabel className="flex w-full items-center justify-between">
             <span>Difficulty</span>
             {!isAll && (
-              <button type="button" onClick={() => onDifficultiesChange([])} className="text-[10px] font-normal text-muted-foreground hover:text-foreground transition">
+              <button
+                type="button"
+                onClick={() => onDifficultiesChange([])}
+                className="text-muted-foreground hover:text-foreground text-[10px] font-normal transition"
+              >
                 Reset
               </button>
             )}
@@ -84,7 +106,11 @@ export default function QuestFilters({ selectedDifficulties, onDifficultiesChang
             All
           </DropdownMenuCheckboxItem>
           {ALL_DIFFICULTIES.map((diff) => (
-            <DropdownMenuCheckboxItem key={diff} checked={!isAll && selectedDifficulties.includes(diff)} onCheckedChange={(val) => toggleDifficulty(diff, val)}>
+            <DropdownMenuCheckboxItem
+              key={diff}
+              checked={!isAll && selectedDifficulties.includes(diff)}
+              onCheckedChange={(val) => toggleDifficulty(diff, val)}
+            >
               {diff.charAt(0) + diff.slice(1).toLowerCase()}
             </DropdownMenuCheckboxItem>
           ))}
@@ -95,16 +121,27 @@ export default function QuestFilters({ selectedDifficulties, onDifficultiesChang
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="gap-1">
-            <ArrowUpDown className="w-3.5 h-3.5" /> Sort
+            <ArrowUpDown className="h-3.5 w-3.5" /> Sort
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-60">
           <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-          <DropdownMenuRadioGroup value={sortOption} onValueChange={onSortChange}>
-            <DropdownMenuRadioItem value="POINTS_DESC">Points (High → Low)</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="POINTS_ASC">Points (Low → High)</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="DURATION_DESC">Duration (Long → Short)</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="DURATION_ASC">Duration (Short → Long)</DropdownMenuRadioItem>
+          <DropdownMenuRadioGroup
+            value={sortOption}
+            onValueChange={onSortChange}
+          >
+            <DropdownMenuRadioItem value="POINTS_DESC">
+              Points (High → Low)
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="POINTS_ASC">
+              Points (Low → High)
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="DURATION_DESC">
+              Duration (Long → Short)
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="DURATION_ASC">
+              Duration (Short → Long)
+            </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>

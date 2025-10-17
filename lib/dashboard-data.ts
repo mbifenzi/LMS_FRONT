@@ -1,4 +1,4 @@
-import { Zap, Calendar, Trophy, type LucideIcon } from "lucide-react";
+import { Calendar, type LucideIcon, Trophy, Zap } from 'lucide-react';
 
 export interface Achievement {
   id: number;
@@ -53,41 +53,83 @@ export interface DashboardData {
 // Sample data
 export const dashboardData: DashboardData = {
   profile: {
-    name: "Johny Smith",
-    avatar: "/images/hogwarts-legacy.png",
+    name: 'Johny Smith',
+    avatar: '/images/hogwarts-legacy.png',
     exp: 0,
     stars: 0,
     achievements: [
-      { id: 1, title: "Fast Learner", description: "Completed 5 courses in 1 month", icon: Zap, earned: true },
-      { id: 2, title: "Streak Master", description: "7-day learning streak", icon: Calendar, earned: true },
-      { id: 3, title: "High Achiever", description: "90%+ average score", icon: Trophy, earned: true },
+      {
+        id: 1,
+        title: 'Fast Learner',
+        description: 'Completed 5 courses in 1 month',
+        icon: Zap,
+        earned: true,
+      },
+      {
+        id: 2,
+        title: 'Streak Master',
+        description: '7-day learning streak',
+        icon: Calendar,
+        earned: true,
+      },
+      {
+        id: 3,
+        title: 'High Achiever',
+        description: '90%+ average score',
+        icon: Trophy,
+        earned: true,
+      },
     ],
-    skills: ["React", "TypeScript", "Node.js"],
-    highlights: ["Open Source Contributor", "Hackathon Winner"],
-    location: "Morocco",
-    email: "user@um6p.ma",
+    skills: ['React', 'TypeScript', 'Node.js'],
+    highlights: ['Open Source Contributor', 'Hackathon Winner'],
+    location: 'Morocco',
+    email: 'user@um6p.ma',
   },
   contributions: {
-    month: "September 2025",
+    month: 'September 2025',
     activities: {
       total: 47,
       categories: [
-        { name: "Course Completions", count: 28, progress: 60 },
-        { name: "Quiz Submissions", count: 12, progress: 25 },
-        { name: "Learning Activities", count: 7, progress: 15 },
+        { name: 'Course Completions', count: 28, progress: 60 },
+        { name: 'Quiz Submissions', count: 12, progress: 25 },
+        { name: 'Learning Activities', count: 7, progress: 15 },
       ],
     },
     submissions: {
       total: 8,
-      courseName: "react-mastery",
+      courseName: 'react-mastery',
       completed: 6,
       items: [
-        { title: "Completed: React Components Quiz", date: "Sep 23", type: "completed" },
-        { title: "Completed: React Hooks Quiz", date: "Sep 21", type: "completed" },
-        { title: "Completed: Docker Fundamentals Quiz", date: "Sep 19", type: "completed" },
-        { title: "Completed: ES6 Arrow Functions Quiz", date: "Sep 18", type: "completed" },
-        { title: "In Progress: React Router Quiz", date: "Sep 16", type: "progress" },
-        { title: "In Progress: State Management Quiz", date: "Sep 14", type: "progress" },
+        {
+          title: 'Completed: React Components Quiz',
+          date: 'Sep 23',
+          type: 'completed',
+        },
+        {
+          title: 'Completed: React Hooks Quiz',
+          date: 'Sep 21',
+          type: 'completed',
+        },
+        {
+          title: 'Completed: Docker Fundamentals Quiz',
+          date: 'Sep 19',
+          type: 'completed',
+        },
+        {
+          title: 'Completed: ES6 Arrow Functions Quiz',
+          date: 'Sep 18',
+          type: 'completed',
+        },
+        {
+          title: 'In Progress: React Router Quiz',
+          date: 'Sep 16',
+          type: 'progress',
+        },
+        {
+          title: 'In Progress: State Management Quiz',
+          date: 'Sep 14',
+          type: 'progress',
+        },
       ],
     },
   },

@@ -1,7 +1,21 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+
+import {
+  Copy,
+  Facebook,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Share2,
+  Twitter,
+} from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Sheet,
   SheetContent,
@@ -9,20 +23,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { 
-  Share2, 
-  Copy, 
-  Mail, 
-  MessageCircle, 
-  Twitter,
-  Facebook,
-  Linkedin
-} from "lucide-react";
-import { type Quiz } from "@/lib/mock-data/quizzes";
+} from '@/components/ui/sheet';
+
+import { type Quiz } from '@/lib/mock-data/quizzes';
 
 interface ShareQuizProps {
   quiz: Quiz;
@@ -35,12 +38,12 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(quizUrl);
-      toast.success("Link copied!", {
-        description: "Quiz link has been copied to your clipboard.",
+      toast.success('Link copied!', {
+        description: 'Quiz link has been copied to your clipboard.',
       });
     } catch (err) {
-      toast.error("Failed to copy", {
-        description: "Could not copy the link. Please try again.",
+      toast.error('Failed to copy', {
+        description: 'Could not copy the link. Please try again.',
       });
     }
   };
@@ -49,23 +52,31 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
     const subject = encodeURIComponent(`Check out this quiz: ${quiz.title}`);
     const body = encodeURIComponent(
       `I found this interesting quiz and thought you might enjoy it!\n\n` +
-      `"${quiz.title}"\n${quiz.description}\n\n` +
-      `Difficulty: ${quiz.difficulty}\n` +
-      `Duration: ${quiz.duration}\n\n` +
-      `Take the quiz here: ${quizUrl}`
+        `"${quiz.title}"\n${quiz.description}\n\n` +
+        `Difficulty: ${quiz.difficulty}\n` +
+        `Duration: ${quiz.duration}\n\n` +
+        `Take the quiz here: ${quizUrl}`
     );
     window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
   };
 
   const handleTwitterShare = () => {
-    const text = encodeURIComponent(`Just discovered this ${quiz.difficulty.toLowerCase()} quiz: "${quiz.title}" - ${quiz.description}`);
+    const text = encodeURIComponent(
+      `Just discovered this ${quiz.difficulty.toLowerCase()} quiz: "${quiz.title}" - ${quiz.description}`
+    );
     const url = encodeURIComponent(quizUrl);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    window.open(
+      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      '_blank'
+    );
   };
 
   const handleFacebookShare = () => {
     const url = encodeURIComponent(quizUrl);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      '_blank'
+    );
   };
 
   const handleLinkedInShare = () => {
@@ -93,7 +104,7 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
             Share "{quiz.title}" with others to let them take this quiz.
           </SheetDescription>
         </SheetHeader>
-        
+
         <div className="mt-6 space-y-6">
           {/* Copy Link Section */}
           <div className="space-y-2">
@@ -123,7 +134,7 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
                 <Mail className="mr-2 h-4 w-4" />
                 Email
               </Button>
-              
+
               <Button
                 onClick={handleTwitterShare}
                 variant="outline"
@@ -132,7 +143,7 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
                 <Twitter className="mr-2 h-4 w-4" />
                 Twitter
               </Button>
-              
+
               <Button
                 onClick={handleFacebookShare}
                 variant="outline"
@@ -141,7 +152,7 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
                 <Facebook className="mr-2 h-4 w-4" />
                 Facebook
               </Button>
-              
+
               <Button
                 onClick={handleLinkedInShare}
                 variant="outline"
@@ -154,14 +165,18 @@ export default function ShareQuiz({ quiz }: ShareQuizProps) {
           </div>
 
           {/* Quiz Preview */}
-          <div className="p-4 border rounded-lg bg-muted/50">
-            <h4 className="font-medium mb-2">{quiz.title}</h4>
-            <p className="text-sm text-muted-foreground mb-3">
+          <div className="bg-muted/50 rounded-lg border p-4">
+            <h4 className="mb-2 font-medium">{quiz.title}</h4>
+            <p className="text-muted-foreground mb-3 text-sm">
               {quiz.description}
             </p>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>{quiz.difficulty} • {quiz.category}</span>
-              <span>{quiz.duration} • {quiz.questions.length} questions</span>
+            <div className="text-muted-foreground flex items-center justify-between text-xs">
+              <span>
+                {quiz.difficulty} • {quiz.category}
+              </span>
+              <span>
+                {quiz.duration} • {quiz.questions.length} questions
+              </span>
             </div>
           </div>
         </div>

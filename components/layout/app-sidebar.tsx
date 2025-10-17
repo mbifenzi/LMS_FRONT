@@ -1,115 +1,95 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { BookOpen, HelpCircle, LayoutDashboard, Trophy, Frame, Map, PieChart, Settings2, SquareTerminal, Brain } from "lucide-react";
+import * as React from 'react';
 
-import { NavMain } from "@/components/layout/nav-main";
-import { NavProjects } from "@/components/layout/nav-projects";
-import { NavUser } from "@/components/layout/nav-user";
-import { TeamSwitcher } from "@/components/layout/team-switcher";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import {
+  BadgeQuestionMark,
+  Bell,
+  BookOpen,
+  Brain,
+  FileQuestion,
+  Folder,
+  LayoutDashboard,
+  Settings2,
+  Trophy,
+} from 'lucide-react';
+
+import { NavMain } from '@/components/layout/nav-main';
+import { NavUser } from '@/components/layout/nav-user';
+import { TeamSwitcher } from '@/components/layout/team-switcher';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from '@/components/ui/sidebar';
 
 // This is sample data.
 const data = {
   teams: [
     {
-      name: "SASE Platform",
-      logo: "/favicon.ico",
-      plan: "Academic",
+      name: 'Astra Learn',
+      logo: '/favicon.ico',
+      plan: 'Intranet',
     },
     {
-      name: "Student Portal",
+      name: 'Student Portal',
       logo: BookOpen,
-      plan: "Education",
+      plan: 'Education',
     },
     {
-      name: "Admin Panel",
+      name: 'Admin Panel',
       logo: Settings2,
-      plan: "Management",
+      plan: 'Management',
     },
   ],
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
+      title: 'Dashboard',
+      url: '/',
       icon: LayoutDashboard,
       isActive: true,
     },
     {
-      title: "Course Catalog",
-      url: "/course-catalog",
+      title: 'Course Catalog',
+      url: '/course-catalog',
       icon: Trophy,
     },
     {
-      title: "Quiz Catalog",
-      url: "/quiz-catalog",
+      title: 'Quiz Catalog',
+      url: '/quiz-catalog',
       icon: Brain,
     },
     {
-      title: "Help",
-      url: "/help",
-      icon: HelpCircle,
-      items: [
-        {
-          title: "FAQ",
-          url: "/help",
-        },
-        {
-          title: "Contact Support",
-          url: "/help",
-        },
-        {
-          title: "Getting Started",
-          url: "/help",
-        },
-      ],
+      title: 'Quest Catalog',
+      url: '/quest-catalog',
+      icon: Trophy,
     },
     {
-      title: "Documentation",
-      url: "/documentation",
-      icon: BookOpen,
-      items: [
-        {
-          title: "User Guide",
-          url: "/documentation",
-        },
-        {
-          title: "Tutorials",
-          url: "/documentation",
-        },
-        {
-          title: "API Reference",
-          url: "/documentation",
-        },
-        {
-          title: "Best Practices",
-          url: "/documentation",
-        },
-      ],
+      title: 'Documentation',
+      url: '/documentation',
+      icon: Folder,
     },
   ],
-  projects: [
+  navBottom: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      title: 'Notifications',
+      url: '/notifications',
+      icon: Bell,
+      badge: 3, // notification counter
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      title: 'Help Center',
+      url: '/help',
+      icon: BadgeQuestionMark,
     },
   ],
 };
 
-export function AppSidebar({ 
+export function AppSidebar({
   user,
-  ...props 
+  ...props
 }: React.ComponentProps<typeof Sidebar> & {
   user: {
     name: string;
@@ -124,7 +104,9 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <div className="mt-auto">
+          <NavMain items={data.navBottom} />
+        </div>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

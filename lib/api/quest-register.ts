@@ -1,7 +1,10 @@
-"use server";
-import { cookies } from "next/headers";
-import { API_URL, ENDPOINTS } from "../config";
-import { LearnerQuestEnrollment } from "@/types/types";
+'use server';
+
+import { cookies } from 'next/headers';
+
+import { LearnerQuestEnrollment } from '@/types/types';
+
+import { API_URL, ENDPOINTS } from '../config';
 
 export type RegisterQuestResponse =
   | {
@@ -15,27 +18,28 @@ export type RegisterQuestResponse =
     };
 
 // register learner to a quest
-export async function registerQuest(questId: string): Promise<RegisterQuestResponse> {
+export async function registerQuest(
+  questId: string
+): Promise<RegisterQuestResponse> {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session_id")?.value;
+  const sessionId = cookieStore.get('session_id')?.value;
   const url = `${API_URL}${ENDPOINTS.QUESTS.REGISTER}`;
 
   try {
     const response = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
+        accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionId}`,
       },
       body: JSON.stringify({ quest_id: questId }),
     });
 
     if (!response.ok) {
-      const errorText = await response.text().catch(() => "");
+      const errorText = await response.text().catch(() => '');
       throw new Error(`Register failed (${response.status}): ${errorText}`);
     }
-  
 
     try {
       const data = (await response.json()) as RegisterQuestResponse;

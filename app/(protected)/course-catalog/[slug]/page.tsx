@@ -1,11 +1,16 @@
-import { notFound } from "next/navigation";
-import { extractIdFromSlug } from "@/lib/utils/slug";
-import Course from "@/components/course/Course";
-import { coursesByStatus, type Course as CourseType } from "@/lib/mock-data/courses";
+import { notFound } from 'next/navigation';
+
+import Course from '@/components/course/Course';
+
+import {
+  type Course as CourseType,
+  coursesByStatus,
+} from '@/lib/mock-data/courses';
+import { extractIdFromSlug } from '@/lib/utils/slug';
 
 export const metadata = {
-  title: "Course",
-  description: "Take a course",
+  title: 'Course',
+  description: 'Take a course',
 };
 
 interface CoursePageProps {
@@ -24,17 +29,17 @@ function findCourseById(id: string): CourseType | null {
     ...coursesByStatus.abandoned,
     ...coursesByStatus.completed,
   ];
-  
-  return allCourses.find(course => course.id === parseInt(id)) || null;
+
+  return allCourses.find((course) => course.id === parseInt(id)) || null;
 }
 
 export default async function CoursePage({ params }: CoursePageProps) {
   // Await params in Next.js 15
   const { slug } = await params;
-  
+
   // Extract the ID from the slug
   const courseId = extractIdFromSlug(slug);
-  
+
   // Find the course by ID
   const course = findCourseById(courseId);
 

@@ -1,8 +1,10 @@
-import { fetchQuestsByStatus } from "@/lib/api/quest-api";
-import QuestCatalogClient from "./QuestCatalog";
-import { ApiQuest } from "@/types/types";
-import { fetchLearnerDashboard } from "@/lib/api/learner-dashboard-api";
-import { fetchAvailableQuests } from "@/lib/api/available-quests-api";
+import { fetchAvailableQuests } from '@/lib/api/available-quests-api';
+import { fetchLearnerDashboard } from '@/lib/api/learner-dashboard-api';
+import { fetchQuestsByStatus } from '@/lib/api/quest-api';
+
+import { ApiQuest } from '@/types/types';
+
+import QuestCatalogClient from './QuestCatalog';
 
 export type QuestsByStatus = Record<string, ApiQuest[]>;
 
@@ -11,22 +13,33 @@ interface QuestCatalogProps {
 }
 
 export default async function QuestCatalog({ role }: QuestCatalogProps) {
-  const isStudent = role === "Student";
+  const isStudent = role === 'Student';
 
   async function fetchAdminQuests() {
-    const [draft, published, archived, underReview, rejected] = await Promise.all([
-      fetchQuestsByStatus("DRAFT"),
-      fetchQuestsByStatus("PUBLISHED"),
-      fetchQuestsByStatus("ARCHIVED"),
-      fetchQuestsByStatus("UNDER_REVIEW"),
-      fetchQuestsByStatus("REJECTED"),
-    ]);
-    return { draft, published, archived, underReview, rejected } as QuestsByStatus;
+    const [draft, published, archived, underReview, rejected] =
+      await Promise.all([
+        fetchQuestsByStatus('DRAFT'),
+        fetchQuestsByStatus('PUBLISHED'),
+        fetchQuestsByStatus('ARCHIVED'),
+        fetchQuestsByStatus('UNDER_REVIEW'),
+        fetchQuestsByStatus('REJECTED'),
+      ]);
+    return {
+      draft,
+      published,
+      archived,
+      underReview,
+      rejected,
+    } as QuestsByStatus;
   }
 
   async function fetchStudentQuests() {
-    const [data, availableResp] = await Promise.all([fetchLearnerDashboard(), fetchAvailableQuests()]);
-    const mapEnrollmentsToQuests = (enrollments?: Array<{ quest: ApiQuest }>) => (enrollments ?? []).map((e) => e.quest);
+    const [data, availableResp] = await Promise.all([
+      fetchLearnerDashboard(),
+      fetchAvailableQuests(),
+    ]);
+    const mapEnrollmentsToQuests = (enrollments?: Array<{ quest: ApiQuest }>) =>
+      (enrollments ?? []).map((e) => e.quest);
     return {
       available: availableResp.available_quests || [],
       inProgress: mapEnrollmentsToQuests(data?.in_progress_quests),
@@ -37,7 +50,9 @@ export default async function QuestCatalog({ role }: QuestCatalogProps) {
     } as QuestsByStatus;
   }
 
-  const questsByStatus: QuestsByStatus = isStudent ? await fetchStudentQuests() : await fetchAdminQuests();
+  const questsByStatus: QuestsByStatus = isStudent
+    ? await fetchStudentQuests()
+    : await fetchAdminQuests();
 
   return <QuestCatalogClient questsByStatus={questsByStatus} role={role} />;
 }

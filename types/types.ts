@@ -5,8 +5,8 @@ export interface ApiQuest {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
-  status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "UNDER_REVIEW" | "REJECTED";
+  difficulty: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT';
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | 'UNDER_REVIEW' | 'REJECTED';
   estimated_duration: number;
   prerequicite_points: number;
   prerequisite_quests: string[];
@@ -27,8 +27,8 @@ export interface ApiCourse {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
-  status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | "UNDER_REVIEW" | "REJECTED";
+  difficulty: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT';
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | 'UNDER_REVIEW' | 'REJECTED';
   estimated_duration: number;
   prerequicite_points: number;
   prerequisite_courses: string[];
@@ -95,10 +95,10 @@ export interface LearnerQuestEnrollment {
   id: string;
   quest: ApiQuest;
   quest_name: string;
-  quest_difficulty: ApiQuest["difficulty"];
+  quest_difficulty: ApiQuest['difficulty'];
   start_time: string | null;
   close_time: string | null;
-  status: "NOT_STARTED" | "IN_PROGRESS" | "PAUSED" | "ABANDONED" | "COMPLETED";
+  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'PAUSED' | 'ABANDONED' | 'COMPLETED';
   tasks_completed?: number;
   quest_total_tasks: number;
   total_points_earned: number;
